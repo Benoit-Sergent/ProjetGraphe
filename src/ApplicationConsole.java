@@ -13,7 +13,7 @@ public class ApplicationConsole {
         ApplicationConsole app = new ApplicationConsole();
         app.afficherMenuPrincipal();
     }
-
+    //Test
     public void afficherMenuPrincipal() {
         Scanner scanner = new Scanner(System.in);
         GrapheRoutier graphe = null;

@@ -1,3 +1,5 @@
+package Commun;
+
 public abstract class Utilisateur {
     private String login;
     private String motDePasse;

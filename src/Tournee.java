@@ -1,3 +1,5 @@
+import Commun.CentreDeTraitement;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -7,11 +9,11 @@ public class Tournee {
     private double distanceTotale;
     private double chargeTotale;
     private Camion camion;
-    private Depot depot;
+    private CentreDeTraitement centreDeTraitement;
 
-    public Tournee(Camion camion, Depot depot) {
+    public Tournee(Camion camion, CentreDeTraitement centreDeTraitement) {
         this.camion = camion;
-        this.depot = depot;
+        this.centreDeTraitement = centreDeTraitement;
     }
 
     public void ajouterPoint(PointCollecte point) {
@@ -42,8 +44,8 @@ public class Tournee {
         return camion;
     }
 
-    public Depot getDepot() {
-        return depot;
+    public CentreDeTraitement getDepot() {
+        return centreDeTraitement;
     }
 
     @Override
@@ -53,7 +55,7 @@ public class Tournee {
                 ", distanceTotale=" + distanceTotale +
                 ", chargeTotale=" + chargeTotale +
                 ", camion=" + camion +
-                ", depot=" + depot +
+                ", depot=" + centreDeTraitement +
                 '}';
     }
 }

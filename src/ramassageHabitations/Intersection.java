@@ -1,3 +1,5 @@
+package ramassageHabitations;
+
 public class Intersection {
     private int id;
     private String nom;

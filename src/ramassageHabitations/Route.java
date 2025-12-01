@@ -1,3 +1,5 @@
+package ramassageHabitations;
+
 public class Route {
     private int id;
     private double distance;

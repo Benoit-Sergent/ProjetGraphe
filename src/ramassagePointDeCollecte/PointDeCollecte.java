@@ -1,10 +1,12 @@
-public class PointCollecte {
+package ramassagePointDeCollecte;
+
+public class PointDeCollecte {
     private int id;
     private TypePoint type;
     private double quantiteEstimee;
     private Intersection position;
 
-    public PointCollecte(int id, TypePoint type, double quantiteEstimee, Intersection position) {
+    public PointDeCollecte(int id, TypePoint type, double quantiteEstimee, Intersection position) {
         this.id = id;
         this.type = type;
         this.quantiteEstimee = quantiteEstimee;

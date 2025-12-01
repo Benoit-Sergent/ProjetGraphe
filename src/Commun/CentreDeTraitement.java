@@ -1,8 +1,10 @@
-public class Depot {
+package Commun;
+
+public class CentreDeTraitement {
     private String nom;
     private Intersection position;
 
-    public Depot(String nom, Intersection position) {
+    public CentreDeTraitement(String nom, Intersection position) {
         this.nom = nom;
         this.position = position;
     }

@@ -1,18 +1,20 @@
+import Commun.CentreDeTraitement;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class GrapheExemple {
 
-    public static Depot creerDepot(GrapheRoutier graphe) {
+    public static CentreDeTraitement creerDepot(GrapheRoutier graphe) {
         if (graphe.getIntersections().isEmpty()) {
             throw new IllegalStateException("Aucune intersection dans le graphe.");
         }
         Intersection depotIntersection = graphe.getIntersections().get(0);
-        return new Depot("Depot", depotIntersection);
+        return new CentreDeTraitement("Depot", depotIntersection);
     }
 
-    public static Camion creerCamion(Depot depot) {
-        return new Camion(1, 10.0, depot);
+    public static Camion creerCamion(CentreDeTraitement centreDeTraitement) {
+        return new Camion(1, 10.0, centreDeTraitement);
     }
 
     public static List<PointCollecte> creerPointsCollecte(GrapheRoutier graphe) {

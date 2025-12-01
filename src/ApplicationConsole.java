@@ -1,3 +1,6 @@
+import Commun.CentreDeTraitement;
+import ramassageHabitations.RechercheItineraireRamassage;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -13,7 +16,7 @@ public class ApplicationConsole {
         ApplicationConsole app = new ApplicationConsole();
         app.afficherMenuPrincipal();
     }
-    //Test
+
     public void afficherMenuPrincipal() {
         Scanner scanner = new Scanner(System.in);
         GrapheRoutier graphe = null;
@@ -145,8 +148,8 @@ public class ApplicationConsole {
     public void menuEntreprise(Scanner scanner, GrapheRoutier graphe) {
         System.out.println("=== Menu Entreprise de collecte ===");
 
-        Depot depot = GrapheExemple.creerDepot(graphe);
-        Camion camion = GrapheExemple.creerCamion(depot);
+        CentreDeTraitement centreDeTraitement = GrapheExemple.creerDepot(graphe);
+        Camion camion = GrapheExemple.creerCamion(centreDeTraitement);
         List<PointCollecte> points = GrapheExemple.creerPointsCollecte(graphe);
 
         while (true) {
@@ -160,22 +163,19 @@ public class ApplicationConsole {
 
             switch (choix) {
                 case "1":
-                    AlgorithmeItineraire algo1 = new PlusProcheVoisinTSP();
-                    Tournee t1 = algo1.calculerTournee(graphe, depot, points);
+                    Tournee t1 = RechercheItineraireRamassage.PlusProcheVoisinTSP(graphe, centreDeTraitement, points);
                     System.out.println(t1.getPointsVisites());
                     System.out.println("Distance : " + t1.getDistanceTotale());
                     break;
 
                 case "2":
-                    AlgorithmeItineraire algo2 = new MSTTSP();
-                    Tournee t2 = algo2.calculerTournee(graphe, depot, points);
+                    Tournee t2 = RechercheItineraireRamassage.MSTTSP(graphe, centreDeTraitement, points);
                     System.out.println(t2.getPointsVisites());
                     System.out.println("Distance : " + t2.getDistanceTotale());
                     break;
 
                 case "3":
-                    AlgorithmePostierChinois euler = new AlgorithmePostierChinois();
-                    Tournee t3 = euler.calculerTourneeEulerienne(graphe, depot, camion);
+                    Tournee t3 = RechercheItineraireRamassage.postierChinois(graphe, centreDeTraitement, camion);
                     System.out.println("Distance : " + t3.getDistanceTotale());
                     break;
 

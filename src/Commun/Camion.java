@@ -1,3 +1,5 @@
+package Commun;
+
 public class Camion {
     private int id;
     private double capaciteMax;

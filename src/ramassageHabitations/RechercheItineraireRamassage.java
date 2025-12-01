@@ -1,11 +1,14 @@
 package ramassageHabitations;
 
+import Commun.Camion;
+import Commun.CentreDeTraitement;
+
 import java.util.*;
 
 public class RechercheItineraireRamassage {
-    static public TourneeRamassage postierChinois(GrapheRoutier graphe, Depot depot, Camion camion) {
-        Tournee tournee = new Tournee(camion, depot);
-        if (graphe == null || depot == null || camion == null) {
+    static public TourneeRamassage postierChinois(GrapheRoutier graphe, CentreDeTraitement CDT, Camion camion) {
+        TourneeRamassage tournee = new TourneeRamassage();
+        if (graphe == null || CDT == null || camion == null) {
             return tournee;
         }
 
@@ -20,7 +23,7 @@ public class RechercheItineraireRamassage {
             }
         }
 
-        Intersection start = depot.getPosition();
+        Intersection start = CDT.getIntersection();
         if (!adj.containsKey(start)) {
             return tournee;
         }
@@ -53,7 +56,7 @@ public class RechercheItineraireRamassage {
             }
         }
 
-        double distanceTotale = 0.0;
+        int distanceTotale = 0;
         for (int i = 0; i < circuit.size() - 1; i++) {
             Intersection a = circuit.get(i);
             Intersection b = circuit.get(i + 1);
@@ -64,8 +67,9 @@ public class RechercheItineraireRamassage {
             }
         }
 
-        tournee.setDistanceTotale(distanceTotale);
-        tournee.setChargeTotale(0.0);
+        ItineraireRamassage itineraire = new ItineraireRamassage();
+        itineraire.setDistance(distanceTotale);
+        itineraire.setChargeTotale(0.0);
         return tournee;
     }
 }

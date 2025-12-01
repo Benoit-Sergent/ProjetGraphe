@@ -5,20 +5,20 @@ import java.util.List;
 import java.util.Set;
 
 public class AlgorithmeColorationSecteurs {
-
+/**
     public void colorerSecteurs(List<Secteur> secteurs) {
         if (secteurs == null || secteurs.isEmpty()) {
             return;
         }
 
         for (Secteur s : secteurs) {
-            s.setCouleur(-1);
+            s.setCouleur("Lundi");
         }
 
         for (Secteur secteur : secteurs) {
             Set<Integer> couleursUtilisees = new HashSet<>();
             for (Secteur voisin : secteur.getSecteursVoisins()) {
-                int c = voisin.getCouleur();
+                int c = voisin.getJour();
                 if (c >= 0) {
                     couleursUtilisees.add(c);
                 }
@@ -30,4 +30,5 @@ public class AlgorithmeColorationSecteurs {
             secteur.setCouleur(couleur);
         }
     }
+ **/
 }

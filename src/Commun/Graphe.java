@@ -1,13 +1,8 @@
 package Commun;
 
-public class Graphe {
-    private final String categorie;
-
-    //Constructeur
-    public Graphe(String categorie) {
-        this.categorie = categorie;
-    }
+public abstract class Graphe {
+    private String theme;
 
     //Getters
-    public String getCategorie() { return categorie; }
+    public String getCategorie() { return theme; }
 }

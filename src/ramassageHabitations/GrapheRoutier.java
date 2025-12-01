@@ -5,13 +5,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class GrapheRoutier {
+    private String type;
     private List<Intersection> intersections = new ArrayList<>();
-    private List<Route> routes = new ArrayList<>();
-    private boolean oriente;
+    private List<Route> routes_sortantes = new ArrayList<>();
 
-    public GrapheRoutier(boolean oriente) {
-        this.oriente = oriente;
-    }
 
     public void ajouterIntersection(Intersection i) {
         if (!intersections.contains(i)) {
@@ -20,8 +17,8 @@ public class GrapheRoutier {
     }
 
     public void ajouterRoute(Route r) {
-        if (!routes.contains(r)) {
-            routes.add(r);
+        if (!routes_sortantes.contains(r)) {
+            routes_sortantes.add(r);
             ajouterIntersection(r.getOrigine());
             ajouterIntersection(r.getDestination());
         }
@@ -32,32 +29,24 @@ public class GrapheRoutier {
     }
 
     public List<Route> getRoutes() {
-        return Collections.unmodifiableList(routes);
+        return Collections.unmodifiableList(routes_sortantes);
     }
 
-    public boolean isOriente() {
-        return oriente;
-    }
+    public String getType() { return type;}
 
     public List<Intersection> getVoisins(Intersection i) {
         List<Intersection> voisins = new ArrayList<>();
-        for (Route r : routes) {
+        for (Route r : routes_sortantes) {
             if (r.getOrigine().equals(i)) {
                 voisins.add(r.getDestination());
-            }
-            if (!oriente && r.getDestination().equals(i)) {
-                voisins.add(r.getOrigine());
             }
         }
         return voisins;
     }
 
     public Route getRoute(Intersection i1, Intersection i2) {
-        for (Route r : routes) {
+        for (Route r : routes_sortantes) {
             if (r.getOrigine().equals(i1) && r.getDestination().equals(i2)) {
-                return r;
-            }
-            if (!oriente && r.getOrigine().equals(i2) && r.getDestination().equals(i1)) {
                 return r;
             }
         }

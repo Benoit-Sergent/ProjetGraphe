@@ -4,6 +4,7 @@ import CreneauxSecteurs.GrapheSecteurs;
 import ramassageHabitations.GrapheRoutier;
 import ramassageHabitations.RechercheItineraireRamassage;
 import ramassagePointDeCollecte.GraphePointDeCollecte;
+import ramassagePointDeCollecte.RechercheItinerairePointDeCollecte;
 
 import java.util.List;
 import java.util.Scanner;
@@ -30,56 +31,73 @@ public class Entreprise extends Utilisateur {
     }
 
     //Choix du calcul d'itinéraire
-    public void menuCalculerItineraire(Scanner scanner){
+    private void menuCalculerItineraire(Scanner scanner){
+        while (true) {
+            System.out.println("=== Choisir le type d'itineraire de ramassage ===");
+            System.out.println("1. Ramassage encombrants");
+            System.out.println("2. Ramassage poubelles");
+            System.out.println("3. Ramassage point de collecte");
+            System.out.println("0. Retour");
+            System.out.print("Votre choix : ");
+            String choix = scanner.nextLine();
+
+            switch (choix) {
+                case "1": menuCalculerEncombrants(scanner);break;
+                case "2": menuCalculerPoubelle(scanner); break;
+                case "3": menuCalculerPointDeCollecte(scanner); break;
+                case "0": return;
+                default: System.out.println("Choix inv.");
+            }
+        }
+    }
+    private void menuCalculerEncombrants(Scanner scanner) {
+        while (true) {
+            System.out.println("=== Choisir le calcul d'itineraire voulu ===");
+            System.out.println("1. Postier Chinois");
+            System.out.println("0. Retour");
+            System.out.print("Votre choix : ");
+            String choix = scanner.nextLine();
+        }
+    }
+    private void menuCalculerPoubelle(Scanner scanner) {
+        while (true) {
+            System.out.println("=== Choisir le calcul d'itineraire voulu ===");
+            System.out.println("0. Retour");
+            System.out.print("Votre choix : ");
+            String choix = scanner.nextLine();
+        }
+    }
+    private void menuCalculerPointDeCollecte(Scanner scanner) {
         while (true) {
             System.out.println("=== Choisir le calcul d'itineraire voulu ===");
             System.out.println("1. TSP (Plus Proche Voisin)");
             System.out.println("2. TSP (MST)");
-            System.out.println("3. Postier Chinois");
             System.out.println("0. Retour");
             System.out.print("Votre choix : ");
             String choix = scanner.nextLine();
             switch (choix) {
                 case "1":
-                    if(grapheRoutier == null){
-                        System.out.println("Le grapheRoutier est vide");
+                    if(graphePDC == null){
+                        System.out.println("Le graphe de point de collecte est vide");
                     }else{
-                        Tournee t1 = RechercheItineraireRamassage.PlusProcheVoisinTSP(grapheRoutier);
-                        System.out.println(t1.getPointsVisites());
-                        System.out.println("Distance : " + t1.getDistanceTotale());
+                        Tournee t = RechercheItinerairePointDeCollecte.PlusProcheVoisinTSP(graphePDC);
+                        System.out.println(t.getPointsVisites());
+                        System.out.println("Distance : " + t.getDistanceTotale());
                     }
                     break;
-
                 case "2":
-                    if(grapheRoutier == null){
-                        System.out.println("Le grapheRoutier est vide");
+                    if(graphePDC == null){
+                        System.out.println("Le graphe de point de collecte est vide");
                     }else{
-                        Tournee t1 = RechercheItineraireRamassage.PlusProcheVoisinTSP(grapheRoutier);
-                        System.out.println(t1.getPointsVisites());
-                        System.out.println("Distance : " + t1.getDistanceTotale());
+                        Tournee t = RechercheItinerairePointDeCollecte.MSTTSP(grapheRoutier);
+                        System.out.println(t.getPointsVisites());
+                        System.out.println("Distance : " + t.getDistanceTotale());
                     }
-                    Tournee t2 = RechercheItineraireRamassage.MSTTSP(graphe, centreDeTraitement, points);
-                    System.out.println(t2.getPointsVisites());
-                    System.out.println("Distance : " + t2.getDistanceTotale());
                     break;
-
-                case "3":
-                    Tournee t3 = RechercheItineraireRamassage.postierChinois(graphe, centreDeTraitement, camion);
-                    System.out.println("Distance : " + t3.getDistanceTotale());
-                    break;
-
-                case "4":
-                    for (PointCollecte p : points) System.out.println("- " + p);
-                    break;
-
-                case "0":
-                    return;
-
-                default:
-                    System.out.println("Choix inv.");
+                case "0": return;
+                default: System.out.println("Choix inv.");
             }
         }
-
     }
 
     //Getters

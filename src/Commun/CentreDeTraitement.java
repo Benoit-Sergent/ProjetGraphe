@@ -1,27 +1,21 @@
 package Commun;
 
+import ramassageHabitations.Intersection;
+import ramassagePointDeCollecte.PointDeCollecte;
+
 public class CentreDeTraitement {
-    private String nom;
-    private Intersection position;
+    private Intersection Intersection;
+    private PointDeCollecte pointDeCollecte;
 
-    public CentreDeTraitement(String nom, Intersection position) {
-        this.nom = nom;
-        this.position = position;
+    //Getters
+    public Intersection getIntersection() {
+        return Intersection;
     }
+    public PointDeCollecte getPointDeCollecte() { return pointDeCollecte; }
 
-    public String getNom() {
-        return nom;
+    //Setters
+    public void setIntersection(Intersection Intersection) {
+        this.Intersection = Intersection;
     }
-
-    public Intersection getPosition() {
-        return position;
-    }
-
-    @Override
-    public String toString() {
-        return "Depot{" +
-                "nom='" + nom + '\'' +
-                ", position=" + position +
-                '}';
-    }
+    public void setPointDeCollecte(PointDeCollecte pointDeCollecte) { this.pointDeCollecte = pointDeCollecte; }
 }

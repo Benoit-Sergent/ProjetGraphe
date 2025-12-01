@@ -1,43 +1,35 @@
 package CreneauxSecteurs;
+import Commun.Tournee;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class Secteur {
     private String nom;
-    private double quantiteEstimee;
-    private int couleur;
+    private int quantiteEstimee;
+    private String jour;
+    private Tournee tournee;
     private List<Secteur> secteursVoisins = new ArrayList<>();
 
-    public Secteur(String nom, double quantiteEstimee, int couleur) {
-        this.nom = nom;
-        this.quantiteEstimee = quantiteEstimee;
-        this.couleur = couleur;
-    }
-
+    //Getters
     public String getNom() {
         return nom;
     }
-
     public double getQuantiteEstimee() {
         return quantiteEstimee;
     }
-
-    public int getCouleur() {
-        return couleur;
+    public String getJour() {
+        return jour;
     }
+    public List<Secteur> getSecteursVoisins() { return Collections.unmodifiableList(secteursVoisins);}
 
-    public void setCouleur(int couleur) {
-        this.couleur = couleur;
-    }
+    //Setters
+    public void setCouleur(String Jour) { this.jour = Jour;}
 
     public void ajouterVoisin(Secteur secteur) {
         if (!secteursVoisins.contains(secteur)) {
             secteursVoisins.add(secteur);
         }
-    }
-
-    public List<Secteur> getSecteursVoisins() {
-        return Collections.unmodifiableList(secteursVoisins);
     }
 }

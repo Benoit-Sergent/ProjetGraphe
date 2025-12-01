@@ -1,14 +1,18 @@
 package Commun;
 
 public class Camion {
+    private String immatriculation;
+    private int capacite = 0;
     private int capaciteMax;
 
-    public Camion(int capaciteMax) {
+    //Constructeur
+    public Camion(int capaciteMax, String immatriculation) {
+        this.immatriculation = immatriculation;
         this.capaciteMax = capaciteMax;
     }
 
     //Getters
-    public double getCapaciteMax() {
+    public int getCapaciteMax() {
         return capaciteMax;
     }
 

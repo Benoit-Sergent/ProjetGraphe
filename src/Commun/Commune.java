@@ -1,15 +1,12 @@
 package Commun;
 
 import CreneauxSecteurs.Secteur;
-import ramassagePointDeCollecte.GraphePointDeCollecte;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Commune extends Utilisateur {
@@ -61,10 +58,10 @@ public class Commune extends Utilisateur {
                     entreprise.setGrapheRoutier(ChargeurGraphe.chargerGrapheRoutier(fichier));
                     break;
                 case "2":
-                    entreprise.setGraphePointDeCollecte(ChargeurGraphe.chargerGraphePDC(fichier));
+                    //entreprise.setGraphePointDeCollecte(ChargeurGraphe.chargerGraphePDC(fichier));
                     break;
                 case "3":
-                    entreprise.setGrapheSecteurs(ChargeurGraphe.chargerGrapheSecteurs(fichier));
+                    //entreprise.setGrapheSecteurs(ChargeurGraphe.chargerGrapheSecteurs(fichier));
                     break;
             }
         } catch (IOException e) {
@@ -79,8 +76,8 @@ public class Commune extends Utilisateur {
             System.out.println("=== Menu Collectivité ===");
             System.out.println("1. Soumettre plan du territoire a couvrir");
             //Afficher les sommets
-            System.out.println("2. Afficher les secteurs, affichier ");
-            System.out.println("3. Colorer les secteurs");
+            System.out.println("2. Afficher les secteurs");
+            System.out.println("3. Afficher couleurs des secteurs");
             System.out.println("0. Retour");
             System.out.print("Votre choix : ");
             String choix = scanner.nextLine();
@@ -88,18 +85,14 @@ public class Commune extends Utilisateur {
             switch (choix) {
                 case "1": chargerGraphe(scanner, entreprise); break;
                 case "2": break;
-
                 case "3":
-                    algo.colorerSecteurs(listeSecteurs);
-                    for (Secteur s : listeSecteurs)
-                        System.out.println(s.getNom() + " → Jour " + s.getCouleur());
+                    if(entreprise.getGrapheSecteurs() != null){
+                        for (Secteur s : entreprise.getGrapheSecteurs().getSecteurs())
+                            System.out.println(s.getNom() + " → Jour " + s.getCouleur());
+                    }
                     break;
-
-                case "0":
-                    return;
-
-                default:
-                    System.out.println("Choix inv");
+                case "0": return;
+                default: System.out.println("Choix inv");
             }
         }
     }

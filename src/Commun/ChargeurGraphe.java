@@ -2,6 +2,8 @@ package Commun;
 
 import CreneauxSecteurs.GrapheSecteurs;
 import ramassageHabitations.GrapheRoutier;
+import ramassageHabitations.Intersection;
+import ramassageHabitations.Route;
 import ramassagePointDeCollecte.GraphePointDeCollecte;
 
 import java.io.BufferedReader;
@@ -81,6 +83,6 @@ public class ChargeurGraphe {
 
         return graphe;
     }
-    public static GraphePointDeCollecte chargerGraphePDC(File fichier) throws IOException{}
-    public static GrapheSecteurs chargerGrapheSecteurs(File fichier) throws IOException{}
+    //public static GraphePointDeCollecte chargerGraphePDC(File fichier) throws IOException{}
+    //public static GrapheSecteurs chargerGrapheSecteurs(File fichier) throws IOException{}
 }

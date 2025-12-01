@@ -1,23 +1,36 @@
 package Commun;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Scanner;
+
 public abstract class Utilisateur {
     private String login;
-    private String motDePasse;
 
-    public Utilisateur(String login, String motDePasse) {
-        this.login = login;
-        this.motDePasse = motDePasse;
-    }
+    //Getters
+    public String getLogin() { return login;}
 
-    public String getLogin() {
-        return login;
-    }
+    //Fonction pour se connecter
+    public boolean seConnecter(String fichier, Scanner sc) throws FileNotFoundException {
+        //Lire Fichier
+        Scanner read = new Scanner(new File(fichier));
+        String id = read.nextLine().split(":")[1];
+        String mdp = read.nextLine().split(":")[1];
 
-    public String getMotDePasse() {
-        return motDePasse;
-    }
+        //Rentre identifiants
+        System.out.println("Veuillez rentez les identifiants :");
+        System.out.print("Login : ");
+        login = sc.nextLine();
+        System.out.print("Mot de passe : ");
+        String motDePasse = sc.nextLine();
 
-    public void seConnecter() {
-        System.out.println(login + " se connecte au système.");
+        if (login.equals(id) && motDePasse.equals(mdp)) {
+            System.out.println(login + " se connecte au système.");
+            return true;
+        }else{
+            System.out.println("Erreur d'identifiant ou de mot de passe");
+            return false;
+        }
     }
 }

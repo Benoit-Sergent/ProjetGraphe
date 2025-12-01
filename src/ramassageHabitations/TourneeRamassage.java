@@ -1,4 +1,5 @@
 package ramassageHabitations;
 
-public class TourneeRamassage {
+
+public class TourneeRamassage extends Tournee{
 }

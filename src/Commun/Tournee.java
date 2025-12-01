@@ -1,4 +1,4 @@
-import Commun.CentreDeTraitement;
+package Commun;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -50,7 +50,7 @@ public class Tournee {
 
     @Override
     public String toString() {
-        return "Tournee{" +
+        return "Commun.Tournee{" +
                 "pointsVisites=" + pointsVisites +
                 ", distanceTotale=" + distanceTotale +
                 ", chargeTotale=" + chargeTotale +

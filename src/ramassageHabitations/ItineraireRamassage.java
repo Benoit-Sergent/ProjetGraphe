@@ -1,4 +1,6 @@
 package ramassageHabitations;
 
-public class ItineraireRamassage {
+import Commun.Itineraire;
+
+public class ItineraireRamassage extends Itineraire {
 }

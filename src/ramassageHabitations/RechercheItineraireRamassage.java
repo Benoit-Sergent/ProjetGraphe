@@ -1,11 +1,7 @@
 package ramassageHabitations;
 
-import Commun.Camion;
-import Commun.CentreDeTraitement;
-
-import java.util.*;
-
 public class RechercheItineraireRamassage {
+    /**
     static public TourneeRamassage postierChinois(GrapheRoutier graphe, CentreDeTraitement CDT, Camion camion) {
         TourneeRamassage tournee = new TourneeRamassage();
         if (graphe == null || CDT == null || camion == null) {
@@ -72,4 +68,5 @@ public class RechercheItineraireRamassage {
         itineraire.setChargeTotale(0.0);
         return tournee;
     }
+     **/
 }

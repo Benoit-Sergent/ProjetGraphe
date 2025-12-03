@@ -1,37 +1,25 @@
 package ramassageHabitations;
 
 public class Route {
-    private int id;
-    private double distance;
-    private boolean sensUnique;
+    private String nom;
+    private int distance;
+    private int nombre_maisons;
     private Intersection origine;
     private Intersection destination;
 
-    public Route(int id, double distance, boolean sensUnique,
-                 Intersection origine, Intersection destination) {
-        this.id = id;
+    public Route(int distance, Intersection origine, Intersection destination) {
         this.distance = distance;
-        this.sensUnique = sensUnique;
         this.origine = origine;
         this.destination = destination;
     }
 
-    public int getId() {
-        return id;
-    }
-
+    //Getters
     public double getDistance() {
         return distance;
     }
-
-    public boolean isSensUnique() {
-        return sensUnique;
-    }
-
     public Intersection getOrigine() {
         return origine;
     }
-
     public Intersection getDestination() {
         return destination;
     }
@@ -39,9 +27,7 @@ public class Route {
     @Override
     public String toString() {
         return "Route{" +
-                "id=" + id +
                 ", distance=" + distance +
-                ", sensUnique=" + sensUnique +
                 ", origine=" + origine +
                 ", destination=" + destination +
                 '}';

@@ -1,0 +1,11 @@
+Immatriculation : AB-234-CD ; Capacite max : 500
+Immatriculation : ZX-918-LM ; Capacité max : 480
+Immatriculation : QR-552-NB ; Capacité max : 530
+Immatriculation : TY-307-KP ; Capacité max : 510
+Immatriculation : FV-664-WR ; Capacité max : 495
+Immatriculation : HJ-829-TC ; Capacité max : 520
+Immatriculation : PL-143-GD ; Capacité max : 505
+Immatriculation : KM-772-QX ; Capacité max : 540
+Immatriculation : BD-235-ZR ; Capacité max : 485
+Immatriculation : RW-680-VS ; Capacité max : 525
+Immatriculation : CS-911-JH ; Capacité max : 500

@@ -2,6 +2,8 @@ package ramassageHabitations;
 
 import Commun.Itineraire;
 
-public class ItineraireRamassage extends Itineraire {
+import java.util.LinkedList;
 
+public class ItineraireRamassage extends Itineraire {
+    private LinkedList<Route> itineraire;
 }

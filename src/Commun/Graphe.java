@@ -4,5 +4,5 @@ public abstract class Graphe {
     private String theme;
 
     //Getters
-    public String getCategorie() { return theme; }
+    public String getTheme() { return theme; }
 }

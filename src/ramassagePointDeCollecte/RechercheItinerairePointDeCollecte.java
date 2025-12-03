@@ -5,23 +5,24 @@ import ramassageHabitations.Intersection;
 import ramassageHabitations.Route;
 import ramassageHabitations.TourneeRamassage;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RechercheItinerairePointDeCollecte {
-    static public TourneeRamassage PlusProcheVoisinTSP(GrapheRoutier graphe, Depot depot, List<PointCollecte> points) {
 
-        if (graphe == null || depot == null || points == null || points.isEmpty()) {
+    static public TourneePointDeCollecte PlusProcheVoisinTSP(GraphePointDeCollecte graphe) {
+        if (graphe == null) {
             System.out.println("Données insuffisantes pour calculer une tournée (graphe/depot/points).");
-            return new Tournee(null, depot);
+            return new TourneePointDeCollecte();
         }
 
-        List<PointCollecte> nonVisites = new ArrayList<>(points);
+        List<PointDeCollecte> nonVisites = new ArrayList<>(graphe.getPointDeCollecte());
+        PointDeCollecte positionCourante = graphe.getCentreDeTraitement();
 
-        Intersection positionCourante = depot.getPosition();
+        TourneePointDeCollecte tournee = new TourneePointDeCollecte();
 
-        Tournee tournee = new Tournee(null, depot);
-
+        /**
         double distanceTotale = 0.0;
         double chargeTotale = 0.0;
 
@@ -71,11 +72,12 @@ public class RechercheItinerairePointDeCollecte {
         System.out.println("  Charge totale   = " + chargeTotale);
         System.out.println("  Points visités  = " + tournee.getPointsVisites());
 
+        **/
         return tournee;
     }
-    static public TourneeRamassage MSTTSP(GrapheRoutier graphe, Depot depot, List<PointCollecte> points) {
+    static public TourneePointDeCollecte MSTTSP(GraphePointDeCollecte graphe) {
         //Implémentation de l'approche MST + parcours préfixe + shortcutting
         System.out.println("Calcul de tournée avec l'approche MST (TSP)...");
-        return new TourneeRamassage(null, depot);
+        return new TourneePointDeCollecte();
     }
 }

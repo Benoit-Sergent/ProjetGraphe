@@ -16,7 +16,9 @@ import java.util.Map;
 public class ChargeurGraphe {
 
     public static GrapheRoutier chargerGrapheRoutier(File fichier) throws IOException {
-        GrapheRoutier graphe = new GrapheRoutier(false); // false = non orienté
+        GrapheRoutier graphe = new GrapheRoutier();
+
+        /**
         Map<Integer, Intersection> mapIntersections = new HashMap<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(fichier))) {
@@ -80,9 +82,13 @@ public class ChargeurGraphe {
                 }
             }
         }
-
+        **/
         return graphe;
     }
-    //public static GraphePointDeCollecte chargerGraphePDC(File fichier) throws IOException{}
-    //public static GrapheSecteurs chargerGrapheSecteurs(File fichier) throws IOException{}
+    public static GraphePointDeCollecte chargerGraphePDC(File fichier) throws IOException{
+        return new GraphePointDeCollecte();
+    }
+    public static GrapheSecteurs chargerGrapheSecteurs(File fichier) throws IOException{
+        return new GrapheSecteurs();
+    }
 }

@@ -7,11 +7,13 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Commune extends Utilisateur {
     //Fonction pour charger un graphe
     public void chargerGraphe(Scanner scanner, Entreprise entreprise) {
+        //Renvoie le choix
         String choix;
         while(true){
             System.out.println("=== Selectionnez le type de graphe souhaite ===");
@@ -26,6 +28,7 @@ public class Commune extends Utilisateur {
             System.out.println("Choix invalide.");
         }
 
+        //Ouvre le fichier
         File fichier;
         try {
             JFileChooser fileChooser = new JFileChooser();
@@ -38,7 +41,7 @@ public class Commune extends Utilisateur {
                 System.out.println("Sélection annulée.");
                 return;
             }
-
+        //Cas où l'interface graphique ne fonctionne pas
         }catch (HeadlessException e){
             System.out.println("Mode graphique indisponible.");
             System.out.print("Chemin du fichier : ");
@@ -49,21 +52,26 @@ public class Commune extends Utilisateur {
                 System.out.println("Le fichier n'existe pas.");
                 return;
             } else {
-                System.out.println("Graphe chargé avec succès.");
+                System.out.println("Fichier selectionné avec succès");
             }
         }
+
+        //Chargement des graphes
         try {
             switch (choix) {
                 case "1":
                     entreprise.setGrapheRoutier(ChargeurGraphe.chargerGrapheRoutier(fichier));
+                    entreprise.setTourneesRamassages(new HashMap<>());
                     break;
                 case "2":
-                    //entreprise.setGraphePointDeCollecte(ChargeurGraphe.chargerGraphePDC(fichier));
+                    entreprise.setGraphePointDeCollecte(ChargeurGraphe.chargerGraphePDC(fichier));
+                    entreprise.setTourneesPointDeCollecte(new HashMap<>());
                     break;
                 case "3":
-                    //entreprise.setGrapheSecteurs(ChargeurGraphe.chargerGrapheSecteurs(fichier));
+                    entreprise.setGrapheSecteurs(ChargeurGraphe.chargerGrapheSecteurs(fichier));
                     break;
             }
+            System.out.println("Graphe chargé avec succès.");
         } catch (IOException e) {
             System.out.println("Erreur de lecture dans le fichier.");
         } catch (Exception e) {
@@ -88,7 +96,7 @@ public class Commune extends Utilisateur {
                 case "3":
                     if(entreprise.getGrapheSecteurs() != null){
                         for (Secteur s : entreprise.getGrapheSecteurs().getSecteurs())
-                            System.out.println(s.getNom() + " → Jour " + s.getCouleur());
+                            System.out.println(s.getNom() + " → Jour " + s.getJour());
                     }
                     break;
                 case "0": return;

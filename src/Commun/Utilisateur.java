@@ -14,18 +14,19 @@ public abstract class Utilisateur {
     public boolean seConnecter(String fichier, Scanner sc) throws FileNotFoundException {
         //Lire Fichier
         Scanner read = new Scanner(new File(fichier));
-        String id = read.nextLine().split(":")[1];
-        String mdp = read.nextLine().split(":")[1];
+        String id = read.nextLine().split(" : ")[1];
+        String mdp = read.nextLine().split(" : ")[1];
 
-        //Rentre identifiants
-        System.out.println("Veuillez rentez les identifiants :");
+        //Rentre identifiants;
+        System.out.println("\nVeuillez rentez les identifiants.");
         System.out.print("Login : ");
         login = sc.nextLine();
         System.out.print("Mot de passe : ");
         String motDePasse = sc.nextLine();
 
+        read.close();
         if (login.equals(id) && motDePasse.equals(mdp)) {
-            System.out.println(login + " se connecte au système.");
+            System.out.println(login + " se connecte au système.\n");
             return true;
         }else{
             System.out.println("Erreur d'identifiant ou de mot de passe");

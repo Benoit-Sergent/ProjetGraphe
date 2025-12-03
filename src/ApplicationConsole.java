@@ -1,14 +1,8 @@
-import Commun.ChargeurGraphe;
 import Commun.Commune;
 import Commun.Entreprise;
 
 import java.io.FileNotFoundException;
 import java.util.Scanner;
-import java.io.File;
-
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import java.awt.HeadlessException;
 
 public class ApplicationConsole {
 
@@ -16,6 +10,13 @@ public class ApplicationConsole {
         Scanner scanner = new Scanner(System.in);
         Commune c = new Commune();
         Entreprise e = new Entreprise();
+
+        try {
+            e.CreationCamion("src/CamionsInfo.txt");
+        }catch(FileNotFoundException f){
+            System.out.println(f.getMessage());
+            return;
+        }
 
         while (true) {
             System.out.println("=== Système de collecte des déchets ===");
@@ -27,13 +28,13 @@ public class ApplicationConsole {
 
             switch (choix) {
                 case "1": try {
-                    if(c.seConnecter("CleCommune", scanner)) { c.menuCollectivite(scanner, e);}
+                    if(c.seConnecter("src/CleCommune.txt", scanner)) { c.menuCollectivite(scanner, e);}
                     } catch (FileNotFoundException ex) {
                         System.out.println(ex.getMessage());
                     }break;
                 case "2":
                     try {
-                        if(e.seConnecter("CleEntreprise", scanner)) { e.menuEntreprise(scanner);}
+                        if(e.seConnecter("src/CleEntreprise.txt", scanner)) { e.menuEntreprise(scanner);}
                     } catch (FileNotFoundException ex) {
                         System.out.println(ex.getMessage());
                     }break;

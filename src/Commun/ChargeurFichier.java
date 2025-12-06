@@ -6,12 +6,14 @@ import ramassageHabitations.Graphe.GrapheRoutier;
 import ramassageHabitations.Graphe.Intersection;
 import ramassageHabitations.Graphe.Route;
 import ramassagePointDeCollecte.GraphePointDeCollecte;
+import ramassagePointDeCollecte.PointDeCollecte;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.io.*;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -93,8 +95,61 @@ public class ChargeurFichier {
         return graphe;
     }
 
-    public static GraphePointDeCollecte chargerGraphePDC(File fichier) throws IOException{
-        return new GraphePointDeCollecte();
+    // Méthode pour charger le fichier .txt + return un objet GraphePointDeCollecte
+    public static GraphePointDeCollecte chargerGraphePDC(File fichier) throws IOException {
+
+        // Objet pour lire le fichier ligne par ligne
+        Scanner sc = new Scanner(fichier);
+
+        // Lecture du nombre de sommets
+        String ligne = sc.nextLine();
+        int n = Integer.parseInt(ligne); // convertion de la String en un entier
+
+        // Lecture des noms des sommets
+        ligne = sc.nextLine();
+        String[] noms = ligne.split(";"); // on découpe les lignes avec pour séparateur ';' et obtient un tableau
+        // On vérifie que le nombre de sommets = longueur du tableau
+        if (noms.length != n) {
+            throw new IOException("Le nombre de noms (" + noms.length + ") ne correspond pas à n = " + n);
+        }
+
+        // Création des objets
+        PointDeCollecte depot = new PointDeCollecte(noms[0]); // création du dépôt
+        LinkedList<PointDeCollecte> pdcList = new LinkedList<>(); // création d'une liste pour les pdc
+        for (int i = 1; i < n; i++) {
+            pdcList.add(new PointDeCollecte(noms[i]));
+        }
+
+        // Lecture de la matrice
+        double[][] matrice = new double[n][n];
+        // Première boucle sur les lignes de la matrice
+        for (int i = 0; i < n; i++) {
+            ligne = sc.nextLine();
+            if (ligne == null) {
+                throw new IOException("Ligne " + i + " manquante dans la matrice.");
+            }
+            // On découpe la ligne avec le séparateur ';'
+            String[] valeurs = ligne.split(";");
+            if (valeurs.length != n) {
+                throw new IOException("Ligne " + i + " : " + valeurs.length + " valeurs, " + n + " attendues.");
+            }
+
+            // On parcourt les colonnes
+            for (int j = 0; j < n; j++) {
+                matrice[i][j] = Double.parseDouble(valeurs[j]);
+            }
+        }
+
+        sc.close();
+
+        // Création du graphe
+        GraphePointDeCollecte graphe = new GraphePointDeCollecte();
+        graphe.setType("HO1");
+        graphe.setCentreDeTraitement(depot);
+        graphe.setPointDeCollecte(pdcList);
+        graphe.setMatriceDistances(matrice);
+
+        return graphe;
     }
     public static GrapheSecteurs chargerGrapheSecteurs(File fichier) throws IOException {
         //Création du graphe

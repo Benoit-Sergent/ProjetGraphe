@@ -101,36 +101,52 @@ public class Entreprise extends Utilisateur {
             System.out.println("0. Retour");
             System.out.print("Votre choix : ");
             String choix = scanner.nextLine();
-            if(graphePDC == null){
-                System.out.println("Le graphe de point de collecte est vide");
-            }else {
-                switch (choix) {
-                    case "1": {
-                        TourneePointDeCollecte t;
 
-                        if (!tourneesPointDeCollectes.containsKey("TSP")) {
-                            t = RechercheItinerairePointDeCollecte.PlusProcheVoisinTSP(graphePDC);
-                            tourneesPointDeCollectes.put("TSP", t);
-                        } else {
-                            t = tourneesPointDeCollectes.get("TSP");
-                        }
+            GraphePointDeCollecte graphe = getGraphePointDeCollecte();
 
-                        System.out.println("Itinéraire (TSP)");
-                        System.out.println(t.getItineraire()); // toString() de ItinerairePointDeCollecte
-                        System.out.println("Distance totale : " + t.getItineraire().getDistance() + " m");
-                        break;
+            if (graphe == null) {
+                System.out.println("Le graphe de points de collecte est vide.");
+                System.out.println("Chargez d'abord un graphe via le menu Collectivité (Soumettre plan → Graphe points de collecte).");
+                return; // on revient au menu précédent
+            }
+
+            switch (choix) {
+                case "1": {
+                    // TSP – Plus Proche Voisin
+                    TourneePointDeCollecte t;
+
+                    // S'assurer que la HashMap existe
+                    if (tourneesPointDeCollectes == null) {
+                        tourneesPointDeCollectes = new HashMap<>();
                     }
-                    case "2":
-                        if(!tourneesPointDeCollectes.containsKey("MST")) {
-                            TourneePointDeCollecte t = RechercheItinerairePointDeCollecte.MSTTSP(graphePDC);
-                            tourneesPointDeCollectes.put("MST", t);
-                            System.out.println(t.getItineraire());
-                            System.out.println("Distance : " + t.getItineraire().getDistance());
-                        }
-                        break;
-                    case "0": return;
-                    default: System.out.println("Choix inv.");
+
+                    if (!tourneesPointDeCollectes.containsKey("TSP")) {
+                        t = RechercheItinerairePointDeCollecte.PlusProcheVoisinTSP(graphe);
+                        tourneesPointDeCollectes.put("TSP", t);
+                    } else {
+                        t = tourneesPointDeCollectes.get("TSP");
+                    }
+
+                    System.out.println("=== Itinéraire (TSP - Plus Proche Voisin) ===");
+                    if (t.getItineraire() != null) {
+                        System.out.println(t.getItineraire());
+                    } else {
+                        System.out.println("Aucun itinéraire n'a été calculé.");
+                    }
+                    break;
                 }
+
+                case "2": {
+                    // TSP – MST
+                    System.out.println("Approche TSP via MST non encore implémentée.");
+                    break;
+                }
+
+                case "0":
+                    return;
+
+                default:
+                    System.out.println("Choix inv.");
             }
         }
     }

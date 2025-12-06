@@ -71,7 +71,6 @@ public class Commune extends Utilisateur {
                     entreprise.setGrapheSecteurs(ChargeurGraphe.chargerGrapheSecteurs(fichier));
                     break;
             }
-            System.out.println("Graphe chargé avec succès.");
         } catch (IOException e) {
             System.out.println("Erreur de lecture dans le fichier.");
         } catch (Exception e) {

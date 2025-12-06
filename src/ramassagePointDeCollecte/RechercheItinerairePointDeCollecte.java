@@ -1,80 +1,87 @@
 package ramassagePointDeCollecte;
 
-import ramassageHabitations.GrapheRoutier;
-import ramassageHabitations.Intersection;
-import ramassageHabitations.Route;
-import ramassageHabitations.TourneeRamassage;
-
-import java.awt.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class RechercheItinerairePointDeCollecte {
 
-    static public TourneePointDeCollecte PlusProcheVoisinTSP(GraphePointDeCollecte graphe) {
-        if (graphe == null) {
-            System.out.println("Données insuffisantes pour calculer une tournée (graphe/depot/points).");
+    public static TourneePointDeCollecte PlusProcheVoisinTSP(GraphePointDeCollecte graphe) {
+
+        // Blindage
+        if (graphe == null
+                || graphe.getCentreDeTraitement() == null
+                || graphe.getPointDeCollecte() == null
+                || graphe.getMatriceDistances() == null) {
+
+            System.out.println("Erreur : graphe PDC incomplet");
             return new TourneePointDeCollecte();
         }
 
+        PointDeCollecte depot = graphe.getCentreDeTraitement();
+        // Copie de la liste des PDC : ce sont les points non encore visités
         List<PointDeCollecte> nonVisites = new ArrayList<>(graphe.getPointDeCollecte());
-        PointDeCollecte positionCourante = graphe.getCentreDeTraitement();
 
-        TourneePointDeCollecte tournee = new TourneePointDeCollecte();
+        LinkedList<PointDeCollecte> ordreVisite = new LinkedList<>();
+        PointDeCollecte sommetActuel = depot;
+        ordreVisite.add(depot);
 
-        /**
-        double distanceTotale = 0.0;
-        double chargeTotale = 0.0;
+        int distanceTotale = 0;
 
+        // Tant qu'il reste des points à visiter
         while (!nonVisites.isEmpty()) {
-            PointCollecte prochain = null;
-            double meilleureDistance = Double.POSITIVE_INFINITY;
+            PointDeCollecte sommetPlusProche = null;
+            double distanceMinimale = Double.POSITIVE_INFINITY;
 
-            for (PointCollecte pc : nonVisites) {
-                Route route = graphe.getRoute(positionCourante, pc.getPosition());
-                if (route == null) {
-                    continue;
-                }
-
-                double d = route.getDistance();
-                if (d < meilleureDistance) {
-                    meilleureDistance = d;
-                    prochain = pc;
+            // Chercher parmi les non visités celui qui est le plus proche du sommet actuel
+            for (PointDeCollecte candidat : nonVisites) {
+                double d = graphe.getDistance(sommetActuel, candidat);
+                if (d < distanceMinimale) {
+                    distanceMinimale = d;
+                    sommetPlusProche = candidat;
                 }
             }
 
-            if (prochain == null) {
-                System.out.println("Impossible de rejoindre certains points restants. Arrêt de l'algorithme.");
+            if (sommetPlusProche == null || distanceMinimale == Double.POSITIVE_INFINITY) {
+                System.out.println("Impossible de trouver un prochain point de collecte atteignable.");
                 break;
             }
 
-            tournee.ajouterPoint(prochain);
-            distanceTotale += meilleureDistance;
-            chargeTotale += prochain.getQuantiteEstimee();
-            positionCourante = prochain.getPosition();
-            nonVisites.remove(prochain);
+            // Ajouter la distance jusqu'au plus proche voisin
+            distanceTotale += (int) Math.round(distanceMinimale);
+
+            // Ajouter ce sommet dans l'itinéraire
+            ordreVisite.add(sommetPlusProche);
+
+            // Mettre à jour la position actuelle et enlever ce point des non visités
+            sommetActuel = sommetPlusProche;
+            nonVisites.remove(sommetPlusProche);
         }
 
-        if (!positionCourante.equals(depot.getPosition())) {
-            Route retour = graphe.getRoute(positionCourante, depot.getPosition());
-            if (retour != null) {
-                distanceTotale += retour.getDistance();
+        // Retour au dépôt
+        if (sommetActuel != depot) {
+            double dRetour = graphe.getDistance(sommetActuel, depot);
+            if (dRetour != Double.POSITIVE_INFINITY) {
+                distanceTotale += (int) Math.round(dRetour);
+                ordreVisite.add(depot);
             } else {
-                System.out.println("Attention : aucune route pour revenir au dépôt depuis la dernière position.");
+                System.out.println("Attention : aucune distance pour revenir au dépôt.");
             }
         }
 
-        tournee.setDistanceTotale(distanceTotale);
-        tournee.setChargeTotale(chargeTotale);
+        // Construire l'itinéraire
+        ItinerairePointDeCollecte itineraire = new ItinerairePointDeCollecte();
+        itineraire.setOrdreVisite(ordreVisite);
+        itineraire.setDistance(distanceTotale);
+        itineraire.setQuantite_dechet(0); // HO1 : on ignore la capacité pour l'instant
 
-        System.out.println("Tournée calculée (Plus Proche Voisin) :");
-        System.out.println("  Distance totale = " + distanceTotale);
-        System.out.println("  Charge totale   = " + chargeTotale);
-        System.out.println("  Points visités  = " + tournee.getPointsVisites());
+        // Construire la tournée
+        TourneePointDeCollecte tournee = new TourneePointDeCollecte();
+        tournee.setItineraire(itineraire);
 
-        **/
         return tournee;
     }
+
     static public TourneePointDeCollecte MSTTSP(GraphePointDeCollecte graphe) {
         //Implémentation de l'approche MST + parcours préfixe + shortcutting
         System.out.println("Calcul de tournée avec l'approche MST (TSP)...");

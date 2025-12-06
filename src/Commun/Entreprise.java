@@ -105,14 +105,21 @@ public class Entreprise extends Utilisateur {
                 System.out.println("Le graphe de point de collecte est vide");
             }else {
                 switch (choix) {
-                    case "1":
-                        if(!tourneesPointDeCollectes.containsKey("TSP")) {
-                            TourneePointDeCollecte t = RechercheItinerairePointDeCollecte.PlusProcheVoisinTSP(graphePDC);
+                    case "1": {
+                        TourneePointDeCollecte t;
+
+                        if (!tourneesPointDeCollectes.containsKey("TSP")) {
+                            t = RechercheItinerairePointDeCollecte.PlusProcheVoisinTSP(graphePDC);
                             tourneesPointDeCollectes.put("TSP", t);
-                            System.out.println(t.getItineraire());
-                            System.out.println("Distance : " + t.getItineraire().getDistance());
+                        } else {
+                            t = tourneesPointDeCollectes.get("TSP");
                         }
+
+                        System.out.println("Itinéraire (TSP)");
+                        System.out.println(t.getItineraire()); // toString() de ItinerairePointDeCollecte
+                        System.out.println("Distance totale : " + t.getItineraire().getDistance() + " m");
                         break;
+                    }
                     case "2":
                         if(!tourneesPointDeCollectes.containsKey("MST")) {
                             TourneePointDeCollecte t = RechercheItinerairePointDeCollecte.MSTTSP(graphePDC);

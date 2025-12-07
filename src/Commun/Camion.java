@@ -18,8 +18,6 @@ public class Camion {
 
     @Override
     public String toString() {
-        return "Camion{" +
-                ", capaciteMax=" + capaciteMax +
-                '}';
+        return "Camion - Immatriculation: " + immatriculation + " capacité max: " + capaciteMax;
     }
 }

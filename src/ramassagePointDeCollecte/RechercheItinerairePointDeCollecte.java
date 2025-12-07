@@ -1,11 +1,5 @@
 package ramassagePointDeCollecte;
 
-import ramassageHabitations.GrapheRoutier;
-import ramassageHabitations.Intersection;
-import ramassageHabitations.Route;
-import ramassageHabitations.TourneeRamassage;
-
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,13 +8,13 @@ public class RechercheItinerairePointDeCollecte {
     static public TourneePointDeCollecte PlusProcheVoisinTSP(GraphePointDeCollecte graphe) {
         if (graphe == null) {
             System.out.println("Données insuffisantes pour calculer une tournée (graphe/depot/points).");
-            return new TourneePointDeCollecte();
+            return new TourneePointDeCollecte(null, null);
         }
 
         List<PointDeCollecte> nonVisites = new ArrayList<>(graphe.getPointDeCollecte());
         PointDeCollecte positionCourante = graphe.getCentreDeTraitement();
 
-        TourneePointDeCollecte tournee = new TourneePointDeCollecte();
+        TourneePointDeCollecte tournee = new TourneePointDeCollecte(null, null);
 
         /**
         double distanceTotale = 0.0;
@@ -78,6 +72,6 @@ public class RechercheItinerairePointDeCollecte {
     static public TourneePointDeCollecte MSTTSP(GraphePointDeCollecte graphe) {
         //Implémentation de l'approche MST + parcours préfixe + shortcutting
         System.out.println("Calcul de tournée avec l'approche MST (TSP)...");
-        return new TourneePointDeCollecte();
+        return new TourneePointDeCollecte(null, null);
     }
 }

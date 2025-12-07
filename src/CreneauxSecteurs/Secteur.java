@@ -12,6 +12,11 @@ public class Secteur {
     private Tournee tournee;
     private List<Secteur> secteursVoisins = new ArrayList<>();
 
+    //Constructeur
+    public Secteur(String nom, int quantiteEstimee) {
+        this.nom = nom;
+        this.quantiteEstimee = quantiteEstimee;
+    }
     //Getters
     public String getNom() {
         return nom;
@@ -22,10 +27,10 @@ public class Secteur {
     public String getJour() {
         return jour;
     }
-    public List<Secteur> getSecteursVoisins() { return Collections.unmodifiableList(secteursVoisins);}
+    public List<Secteur> getSecteursVoisins() { return secteursVoisins; }
 
     //Setters
-    public void setCouleur(String Jour) { this.jour = Jour;}
+    public void setJour(String Jour) { this.jour = Jour;}
 
     public void ajouterVoisin(Secteur secteur) {
         if (!secteursVoisins.contains(secteur)) {

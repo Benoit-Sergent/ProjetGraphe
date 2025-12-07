@@ -1,0 +1,22 @@
+7
+Chu,100
+Zhao,70
+Qin,45
+Wei,60
+Han,70
+Qi,100
+Yan,70
+13
+Qin Zhao
+Qin Wei
+Qin Han
+Qin Chu
+Zhao Wei
+Zhao Qi
+Zhao Yan
+Wei Han
+Wei Chu
+Han Chu
+Chu Qi
+Chu Qin
+Qi Yan

@@ -1,10 +1,15 @@
 package Commun;
 
+import CreneauxSecteurs.AlgorithmeColorationSecteurs;
 import CreneauxSecteurs.GrapheSecteurs;
-import ramassageHabitations.GrapheRoutier;
+import ramassageHabitations.DemandeEncombrant;
+import ramassageHabitations.Graphe.GrapheRoutier;
+import ramassageHabitations.Graphe.Intersection;
+import ramassageHabitations.Graphe.Route;
+import ramassageHabitations.ItineraireRamassage;
 import ramassageHabitations.TourneeRamassage;
 import ramassagePointDeCollecte.GraphePointDeCollecte;
-import ramassagePointDeCollecte.ItinerairePointDeCollecte;
+import ramassageHabitations.RechercheItineraireRamassage;
 import ramassagePointDeCollecte.RechercheItinerairePointDeCollecte;
 import ramassagePointDeCollecte.TourneePointDeCollecte;
 
@@ -12,7 +17,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
+
+import static Commun.ChargeurFichier.chargerFichier;
 
 public class Entreprise extends Utilisateur {
     //Graphes
@@ -20,8 +28,8 @@ public class Entreprise extends Utilisateur {
     private GraphePointDeCollecte graphePDC = null;
     private GrapheSecteurs grapheSecteurs = null;
     //Tournées
-    private HashMap<String, TourneeRamassage> tourneesRamassages = new HashMap<>();
-    private HashMap<String, TourneePointDeCollecte> tourneesPointDeCollectes = new HashMap<>();
+    private List<TourneeRamassage> tourneesRamassages = new LinkedList<>();
+    private List<TourneePointDeCollecte> tourneesPointDeCollectes = new LinkedList<>();
     //Camion
     private LinkedList<Camion> camions = new LinkedList<>();
     private int camion_simultane = 0;
@@ -41,15 +49,26 @@ public class Entreprise extends Utilisateur {
     }
 
     //Menu de l'entreprise
-    public void menuEntreprise(Scanner scanner) {
+    public void menuEntreprise(Scanner scanner, Commune commune) {
         while (true) {
-            System.out.println("=== Menu Entreprise, identifiant : " + getLogin() + "===");
+            System.out.println("\n==============================================");
+            System.out.println("           MENU ENTREPRISE");
+            System.out.println("==============================================");
             System.out.println("1. Calculer un itineraire de ramassage");
+            System.out.println("2. Planifier jours collectes");
+            System.out.println("3. Programmer camions");
             System.out.println("0. Retour");
             System.out.print("Votre choix : ");
             String choix = scanner.nextLine();
             switch (choix) {
-                case "1": menuCalculerItineraire(scanner); break;
+                case "1": menuCalculerItineraire(scanner, commune); break;
+                case "2":
+                    try {
+                        AlgorithmeColorationSecteurs.Colorisation(grapheSecteurs);
+                    }catch(NullPointerException e) {
+                        e.getMessage();
+                    }break;
+                case "3": programmer_camions(scanner); break;
                 case "0": return;
                 default: System.out.println("Choix invalide");
             }
@@ -57,9 +76,9 @@ public class Entreprise extends Utilisateur {
     }
 
     //Choix du calcul d'itinéraire
-    private void menuCalculerItineraire(Scanner scanner){
+    private void menuCalculerItineraire(Scanner scanner, Commune commune){
         while (true) {
-            System.out.println("=== Choisir le type d'itineraire de ramassage ===");
+            System.out.println("\n=== Choisir le type d'itineraire de ramassage ===");
             System.out.println("1. Ramassage encombrants");
             System.out.println("2. Ramassage poubelles");
             System.out.println("3. Ramassage point de collecte");
@@ -68,7 +87,7 @@ public class Entreprise extends Utilisateur {
             String choix = scanner.nextLine();
 
             switch (choix) {
-                case "1": menuCalculerEncombrants(scanner);break;
+                case "1": menuCalculerEncombrants(scanner, commune);break;
                 case "2": menuCalculerPoubelle(scanner); break;
                 case "3": menuCalculerPointDeCollecte(scanner); break;
                 case "0": return;
@@ -76,15 +95,43 @@ public class Entreprise extends Utilisateur {
             }
         }
     }
-    private void menuCalculerEncombrants(Scanner scanner) {
+    private void menuCalculerEncombrants(Scanner scanner, Commune commune) {
         while (true) {
-            System.out.println("=== Choisir le calcul d'itineraire voulu ===");
-            System.out.println("1. Postier Chinois");
+            System.out.println("\n=== Choisir le calcul d'itineraire voulu ===");
+            System.out.println("1. Itineraire pour un seul ramassage");
+            System.out.println("2. Itineraire pour plusieurs ramassages");
             System.out.println("0. Retour");
             System.out.print("Votre choix : ");
             String choix = scanner.nextLine();
+
+            switch (choix) {
+                case "1":
+                    DemandeEncombrant d = commune.menuEncombrant(scanner, false).getFirst();
+                    ItineraireRamassage ir = RechercheItineraireRamassage.itineraire_encombrant(grapheRoutier, d.getRue());
+                    if(ir == null){
+                        System.out.println("Itineraire non trouvé");
+                        return;
+                    }
+                    tourneesRamassages.add(new TourneeRamassage("Dijsktra", ir, d));
+                    break;
+                case "2":
+                    LinkedList<DemandeEncombrant> ds = commune.menuEncombrant(scanner, true);
+                    LinkedList<Route> routes = new LinkedList<>();
+                    for(DemandeEncombrant de : ds){
+                        routes.add(de.getRue());
+                    }
+                    ItineraireRamassage ir2 = RechercheItineraireRamassage.itineraire_encombrants(grapheRoutier, routes);
+                    if(ir2 == null){
+                        System.out.println("Itineraire non trouvé");
+                        return;
+                    }
+                    tourneesRamassages.add(new TourneeRamassage("TSP + Dijsktra", ir2, ds));
+                case "0": return;
+                default: System.out.println("Choix inv.");
+            }
         }
     }
+
     private void menuCalculerPoubelle(Scanner scanner) {
         while (true) {
             System.out.println("=== Choisir le calcul d'itineraire voulu ===");
@@ -106,25 +153,97 @@ public class Entreprise extends Utilisateur {
             }else {
                 switch (choix) {
                     case "1":
-                        if(!tourneesPointDeCollectes.containsKey("TSP")) {
-                            TourneePointDeCollecte t = RechercheItinerairePointDeCollecte.PlusProcheVoisinTSP(graphePDC);
-                            tourneesPointDeCollectes.put("TSP", t);
-                            System.out.println(t.getItineraire());
-                            System.out.println("Distance : " + t.getItineraire().getDistance());
-                        }
+                        TourneePointDeCollecte t1 = RechercheItinerairePointDeCollecte.PlusProcheVoisinTSP(graphePDC);
+                        tourneesPointDeCollectes.add(t1);
+                        System.out.println(t1.getItineraire());
+                        System.out.println("Distance : " + t1.getItineraire().getDistance());
                         break;
                     case "2":
-                        if(!tourneesPointDeCollectes.containsKey("MST")) {
-                            TourneePointDeCollecte t = RechercheItinerairePointDeCollecte.MSTTSP(graphePDC);
-                            tourneesPointDeCollectes.put("MST", t);
-                            System.out.println(t.getItineraire());
-                            System.out.println("Distance : " + t.getItineraire().getDistance());
-                        }
+                        TourneePointDeCollecte t2 = RechercheItinerairePointDeCollecte.MSTTSP(graphePDC);
+                        System.out.println(t2.getItineraire());
+                        System.out.println("Distance : " + t2.getItineraire().getDistance());
                         break;
                     case "0": return;
                     default: System.out.println("Choix inv.");
                 }
             }
+        }
+    }
+
+    //Menu programmation camions
+    public void programmer_camions(Scanner scanner){
+        while (true) {
+            System.out.println("\n=== Programmation camion ===");
+            System.out.println("1. Attribuer camion à tournée ramassage");
+            System.out.println("2. Attribuer camion à tournée point de collecte");
+            System.out.println("0. Retour");
+            System.out.print("Votre choix : ");
+            String choix = scanner.nextLine();
+            switch (choix) {
+                case "1":
+                    if(tourneesRamassages == null || tourneesRamassages.isEmpty()) {
+                        System.out.println("Tournée non initilialisée");
+                    }else{
+                        choisir_tournee(scanner, new LinkedList<>(tourneesRamassages));
+                    }
+                    break;
+                case "2":
+                    if(tourneesPointDeCollectes == null || tourneesPointDeCollectes.isEmpty()){
+                        System.out.println("Tournée non initilialisée");
+                    }
+                    else{
+                        choisir_tournee(scanner, new LinkedList<>(tourneesPointDeCollectes));
+                    }
+                    break;
+                case "0": return;
+                default: System.out.println("Choix invalide");
+            }
+        }
+    }
+    private void choisir_tournee(Scanner scanner, LinkedList<Tournee> liste) {
+        while (true) {
+            System.out.println("\n=== Choisissez Tournée ===");
+
+            //affichage tournées
+            for (int i = 0; i < liste.size(); i++) {
+                System.out.println((i + 1) + ". " + liste.get(i));
+            }
+            System.out.println("0. Retour");
+            System.out.print("Votre choix : ");
+            int choix = Integer.parseInt(scanner.nextLine());
+
+            if (choix == 0) return;
+            if (choix >= 1 && choix <= liste.size()) {
+                Tournee t = liste.get(choix - 1);
+                Camion c = choisir_Camions(scanner);
+                if (c != null) {
+                    t.setCamion(c);
+                    System.out.println("Camion attribué à la tournée");
+                }
+                return;
+            } else {
+                System.out.println("Choix invalide");
+            }
+        }
+    }
+    private Camion choisir_Camions(Scanner scanner) {
+        while (true) {
+            System.out.println("\n=== Choisissez Camion ===");
+            LinkedList<Camion> liste = new LinkedList<>(camions);
+            //Affichage camions
+            for (int i = 0; i < liste.size(); i++) {
+                System.out.println((i + 1) + ". " + liste.get(i));
+            }
+            System.out.println("0. Retour");
+            System.out.print("Votre choix : ");
+            int choix = Integer.parseInt(scanner.nextLine());
+
+            //Actions
+            if (choix == 0) return null;
+            if (choix >= 1 && choix <= liste.size()) {
+                return liste.get(choix - 1);
+            }
+            System.out.println("Choix invalide");
         }
     }
 
@@ -137,6 +256,6 @@ public class Entreprise extends Utilisateur {
     public void setGrapheRoutier(GrapheRoutier grapheRoutier) { this.grapheRoutier = grapheRoutier;}
     public void setGraphePointDeCollecte(GraphePointDeCollecte graphePDC) { this.graphePDC = graphePDC;}
     public void setGrapheSecteurs(GrapheSecteurs grapheSecteurs) { this.grapheSecteurs = grapheSecteurs;}
-    public void setTourneesRamassages(HashMap<String, TourneeRamassage> tourneesRamassages) { this.tourneesRamassages = tourneesRamassages;}
-    public void setTourneesPointDeCollecte(HashMap<String, TourneePointDeCollecte> TPDC) { this.tourneesPointDeCollectes = TPDC;}
+    public void setTourneesRamassages(LinkedList<TourneeRamassage> tourneesRamassages) { this.tourneesRamassages = tourneesRamassages;}
+    public void setTourneesPointDeCollecte(LinkedList<TourneePointDeCollecte> TPDC) { this.tourneesPointDeCollectes = TPDC;}
 }

@@ -1,0 +1,56 @@
+A,B,150,Rue du Vinland
+A,G,150,Rue Guts
+A,M,75,Rue du général Ouki
+A,S,30,Rue de Qin
+B,A,150,Rue du Vinland
+B,D,150,Rue Raphaël
+B,H,10,Rue Tintin
+B,P.C,300,Rue eric Wright
+D,B,150,Rue Raphaël
+D,E,150,Rue Hisoka
+D,J,150,Rue Amicia
+D,O,75,Rue de Belgrade
+D,P.C,500,Boulevard Shin
+E,D,150,Rue Hisoka
+E,F,100,Rue Frisk
+E,I,100,Rue Papyrus
+F,E,100,Rue Frisk
+F,J,200,Place MarineFord
+F,L,150,Rue Griffith
+G,A,150,Rue Guts
+G,H,175,Rue NWA
+G,N,150,Rue Jean Paul II
+H,B,10,Rue Tintin
+H,G,175,Rue NWA
+I,F,80,Rue Sans
+J,D,150,Rue Amicia
+J,F,200,Place MarineFord
+K,N,100,Rue Kratos
+K,P,125,Rue Nas
+L,J,100,Rue ECE
+L,R,150,Rue Catherine
+L,P.C,250,Rue MJ
+M,A,75,Rue du général Ouki
+N,G,200,Rue du capitaine Kenway
+N,H,150,Rue Jean Paul II
+N,K,100,Rue Kratos
+N,T,250,Rue Kanki
+N,P.C,300,Rue Tesla
+O,D,75,Rue de Belgrade
+P,K,125,Rue Nas
+P,T,150,Rue de Paris
+Q,T,25,Impasse Ri Bokou
+R,L,150,Rue Catherine
+R,P.C,200,Rue Ossene
+S,A,30,Rue de Qin
+T,N,250,Rue Kanki
+T,P,150,Rue de Paris
+T,Q,25,Impasse Ri Bokou
+T,R,300,Avenue des 3 grands Cieux
+T,P.C,250,Avenue Eisenberg
+P.C,B,300,Rue eric Wright
+P.C,D,500,Boulevard Shin
+P.C,L,250,Rue MJ
+P.C,N,300,Rue Tesla
+P.C,R,200,Rue Ossene
+P.C,T,250,Avenue Eisenberg

@@ -4,6 +4,12 @@ public abstract class Itineraire {
     private int distance;
     private int quantite_dechet;
 
+    //Constructeur
+    public Itineraire(int distance, int quantite_dechet) {
+        this.distance = distance;
+        this.quantite_dechet = quantite_dechet;
+    }
+
     //Getters
     public int getDistance() { return distance;}
     public int getQuantite_dechet() { return quantite_dechet;}

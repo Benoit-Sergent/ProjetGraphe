@@ -26,7 +26,7 @@ public abstract class Utilisateur {
 
         read.close();
         if (login.equals(id) && motDePasse.equals(mdp)) {
-            System.out.println(login + " se connecte au système.\n");
+            System.out.println(login + " se connecte au système.");
             return true;
         }else{
             System.out.println("Erreur d'identifiant ou de mot de passe");

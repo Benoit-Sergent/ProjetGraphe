@@ -1,6 +1,6 @@
 package ramassagePointDeCollecte;
 
-import ramassageHabitations.Intersection;
+import ramassageHabitations.Graphe.Intersection;
 
 public class Chemin {
     private int distance;

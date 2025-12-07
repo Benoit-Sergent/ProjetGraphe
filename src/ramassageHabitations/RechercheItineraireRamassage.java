@@ -1,72 +1,140 @@
 package ramassageHabitations;
 
+import Commun.Graphe;
+import Commun.Itineraire;
+import ramassageHabitations.Algorithmes.Dijkstra;
+import ramassageHabitations.Graphe.GrapheRoutier;
+import ramassageHabitations.Algorithmes.*;
+import ramassageHabitations.Graphe.Intersection;
+import ramassageHabitations.Graphe.Route;
+
+import java.util.*;
+
 public class RechercheItineraireRamassage {
-    /**
-    static public TourneeRamassage postierChinois(GrapheRoutier graphe, CentreDeTraitement CDT, Camion camion) {
-        TourneeRamassage tournee = new TourneeRamassage();
-        if (graphe == null || CDT == null || camion == null) {
-            return tournee;
+    //Utilisation Dijsktra pour recherche l'itineraire optimale avec une demande d'encombrant
+    public static ItineraireRamassage itineraire_encombrant(GrapheRoutier g, Route adresse){
+        //Linkedlist temporaire pour faire fonctionner dijkstra
+        LinkedList<Intersection> intersection = new LinkedList<>();
+
+        //Itineraire du point de collecte -> debut de l'intersection de la rue
+        intersection.add(adresse.getDepart()); //On ajoute la station de départ à la liste
+        ItineraireRamassage toDebut = Dijkstra.Dijkstra(g, g.getCentreDeTraitement(), intersection);
+
+        //Itineraire de fin de la rue -> point de collecte
+        intersection.clear(); //On vide la liste
+        intersection.add(g.getCentreDeTraitement()); //On ajoute le centre de traitement à la liste
+        ItineraireRamassage toEnd = Dijkstra.Dijkstra(g, adresse.getArrivee(), intersection);
+
+        //Si on obtient pas de chemin, on retourne null
+        if(toDebut == null || toEnd == null){
+            return null;
         }
 
-        Map<Intersection, List<Route>> adj = new HashMap<>();
-        for (Intersection i : graphe.getIntersections()) {
-            adj.put(i, new ArrayList<>());
-        }
-        for (Route r : graphe.getRoutes()) {
-            adj.computeIfAbsent(r.getOrigine(), k -> new ArrayList<>()).add(r);
-            if (!graphe.isOriente()) {
-                adj.computeIfAbsent(r.getDestination(), k -> new ArrayList<>()).add(r);
-            }
-        }
+        //Ajout de la distance total et du nombre de dechet total
+        int distance_total = toDebut.getDistance() + adresse.getDistance() + toEnd.getDistance();
+        int dechet_total = toDebut.getQuantite_dechet() + adresse.getNombre_maisons() + toEnd.getQuantite_dechet();
 
-        Intersection start = CDT.getIntersection();
-        if (!adj.containsKey(start)) {
-            return tournee;
-        }
+        //Reconstruction du chemin total
+        LinkedList<Intersection> itineraire_total = new LinkedList<>(toDebut.getItineraire());
+        itineraire_total.addAll(toEnd.getItineraire());
+        ItineraireRamassage trajet_total = new ItineraireRamassage(distance_total, dechet_total, itineraire_total);
 
-        Deque<Intersection> stack = new ArrayDeque<>();
-        List<Intersection> circuit = new ArrayList<>();
-        stack.push(start);
-
-        while (!stack.isEmpty()) {
-            Intersection v = stack.peek();
-            List<Route> edges = adj.get(v);
-            while (edges != null && !edges.isEmpty() && edges.get(0) == null) {
-                edges.remove(0);
-            }
-            if (edges == null || edges.isEmpty()) {
-                circuit.add(stack.pop());
-            } else {
-                Route r = edges.remove(0);
-                Intersection u;
-                if (r.getOrigine().equals(v)) {
-                    u = r.getDestination();
-                } else {
-                    u = r.getOrigine();
-                }
-                List<Route> edgesU = adj.get(u);
-                if (edgesU != null) {
-                    edgesU.remove(r);
-                }
-                stack.push(u);
-            }
+        //Affichage des résultats
+        System.out.println("\n~~~~~ RESULTAT (Dijkstra) : ~~~~~");
+        System.out.println("1. Itineraire centre de traitement -> intersection de fin : ");
+        System.out.println(toEnd);
+        System.out.println("------------------------------------------------");
+        for(int i = 0; i < toEnd.getItineraire().size()-1; i++){
+            Intersection debut = toEnd.getItineraire().get(i);
+            Intersection fin = toEnd.getItineraire().get(i+1);
+            System.out.println(debut + " -> " + fin);
         }
 
-        int distanceTotale = 0;
-        for (int i = 0; i < circuit.size() - 1; i++) {
-            Intersection a = circuit.get(i);
-            Intersection b = circuit.get(i + 1);
-            if (a.equals(b)) continue;
-            Route r = graphe.getRoute(a, b);
-            if (r != null) {
-                distanceTotale += r.getDistance();
-            }
+        System.out.println("\n2. Itineraire total : ");
+        System.out.println(trajet_total);
+        System.out.println("------------------------------------------------");
+        for(int i = 0; i < trajet_total.getItineraire().size()-1; i++){
+            Intersection debut = trajet_total.getItineraire().get(i);
+            Intersection fin = trajet_total.getItineraire().get(i+1);
+            System.out.println(debut + " -> " + fin);
         }
-
-        ItineraireRamassage itineraire = new ItineraireRamassage();
-        itineraire.setDistance(distanceTotale);
-        itineraire.setChargeTotale(0.0);
-        return tournee;
+        return trajet_total;
     }
-     **/
+
+    //Heuristique du "plus proche voisin" pour le Problème du Voyageur de Commerce (TSP).
+    // À chaque étape, on utilise Dijkstra pour trouver le point non visité le plus proche et on s'y rend.
+    public static  ItineraireRamassage itineraire_encombrants(GrapheRoutier g, LinkedList<Route> adresses){
+        //Initialisation
+        LinkedList<Intersection> tournee = new LinkedList<>(); //Chemin finale de la tournée
+        int distanceTotale = 0;
+        Intersection debut = g.getCentreDeTraitement();
+        tournee.add(debut);
+
+        //Liste des intersections de départ à visiter
+        LinkedList<Intersection> intersection_adresses = new LinkedList<>(); //Sommets des rues
+        for(Route r : adresses){
+            intersection_adresses.add(r.getDepart());//Obtention des sommets des adresses
+        }
+
+        //Exploration TSP
+        while (!intersection_adresses.isEmpty()) { //Tant que la file n'est pas vide
+            // On trouve dijkstra
+            ItineraireRamassage ir = Dijkstra.Dijkstra(g, debut, intersection_adresses);
+            if (ir == null) { //Si le chemin est null
+                System.err.println("Erreur: Impossible de trouver un chemin vers les points restants.");
+                return null;
+            }
+            LinkedList<Intersection> chemin = ir.getItineraire(); //On obtient le chemin
+            Route adresse = null;          //On cherche maintenant la rue qu'on souhaite
+            for(Route r : adresses){ //On cherche dans les adresses
+                if (r.getDepart().equals(chemin.getLast())) { //Si une des routes sortantes est dans la liste
+                    adresse = r;        //On attribue cette rue
+                    break;
+                }
+            }
+
+            tournee.addAll(chemin); //On rajoute tout le chemin dans la tournee
+            distanceTotale += ir.getDistance() + adresse.getDistance();  //On met la distance totale
+            debut = adresse.getArrivee();          //On dit que le nouveau point de départ est la fin de la rue
+            intersection_adresses.remove(chemin.getLast()); //On retire le point d'arrivée des sommets à explorer
+        }
+        //Reconstitution de l'itinéraire
+        ItineraireRamassage moitie = new ItineraireRamassage(distanceTotale, 0, tournee);
+
+        //On recherche maintenant le chemin retour
+        LinkedList<Intersection> CentreDeTraitement = new LinkedList<>(); //Liste temporaire où on rajoute centre de traitement
+        CentreDeTraitement.add(g.getCentreDeTraitement());                //Nécessaire au fonctionnement de Dijkstra
+        ItineraireRamassage ir = Dijkstra.Dijkstra(g, debut, CentreDeTraitement);
+        if (ir != null) { //Si le chemin n'est pas null
+            LinkedList<Intersection> chemin = ir.getItineraire(); //On obtient le chemin
+            tournee.addAll(chemin); //On rajoute tout le chemin dans la tournee
+            distanceTotale += ir.getDistance(); //On met la distance totale
+            tournee.add(g.getCentreDeTraitement()); //On rajoute à la fin le centre de traitement
+        } else {
+            System.err.println("Erreur: Retour vers le point de collecte impossible.");
+        }
+        ItineraireRamassage total = new ItineraireRamassage(distanceTotale, 0, tournee);
+
+        //Affichage des résultats
+        System.out.println("\n~~~~~ RESULTAT (Dijkstra + TSP) : ~~~~~");
+        System.out.println("1. Itineraire centre de traitement -> intersection de fin de la dernière demande : ");
+        System.out.println(moitie);
+        System.out.println("------------------------------------------------");
+        for(int i = 0; i < moitie.getItineraire().size()-1; i++){
+            Intersection debut_trajet = moitie.getItineraire().get(i);
+            Intersection fin_trajet = moitie.getItineraire().get(i+1);
+            System.out.println(debut_trajet + " -> " + fin_trajet);
+        }
+
+        System.out.println("\n2. Itineraire total : ");
+        System.out.println(total);
+        System.out.println("------------------------------------------------");
+        for(int i = 0; i < total.getItineraire().size()-1; i++){
+            Intersection debut_trajet = total.getItineraire().get(i);
+            Intersection fin_trajet = total.getItineraire().get(i+1);
+            System.out.println(debut_trajet + " -> " + fin_trajet);
+        }
+
+        return total;
+    }
 }

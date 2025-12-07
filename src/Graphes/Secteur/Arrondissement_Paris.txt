@@ -1,0 +1,70 @@
+20
+1ᵉʳarrondissement,20
+2ᵉarrondissement,49
+3ᵉarrondissement,49
+4ᵉarrondissement,39
+5ᵉarrondissement,28
+6ᵉarrondissement,49
+7ᵉarrondissement,28
+8ᵉarrondissement,10
+9ᵉarrondissement,36
+10ᵉarrondissement,28
+11ᵉarrondissement,10
+12ᵉarrondissement,39
+13ᵉarrondissement,13
+14ᵉarrondissement,25
+15ᵉarrondissement,37
+16ᵉarrondissement,10
+17ᵉarrondissement,29
+18ᵉarrondissement,39
+19ᵉarrondissement,40
+20ᵉarrondissement,20
+48
+1ᵉʳarrondissement 2ᵉarrondissement
+1ᵉʳarrondissement 3ᵉarrondissement
+1ᵉʳarrondissement 4ᵉarrondissement
+1ᵉʳarrondissement 5ᵉarrondissement
+1ᵉʳarrondissement 6ᵉarrondissement
+1ᵉʳarrondissement 7ᵉarrondissement
+1ᵉʳarrondissement 8ᵉarrondissement
+2ᵉarrondissement 3ᵉarrondissement
+2ᵉarrondissement 8ᵉarrondissement
+2ᵉarrondissement 9ᵉarrondissement
+2ᵉarrondissement 10ᵉarrondissement
+3ᵉarrondissement 4ᵉarrondissement
+3ᵉarrondissement 10ᵉarrondissement
+3ᵉarrondissement 11ᵉarrondissement
+4ᵉarrondissement 5ᵉarrondissement
+4ᵉarrondissement 11ᵉarrondissement
+4ᵉarrondissement 12ᵉarrondissement
+5ᵉarrondissement 6ᵉarrondissement
+5ᵉarrondissement 12ᵉarrondissement
+5ᵉarrondissement 13ᵉarrondissement
+5ᵉarrondissement 14ᵉarrondissement
+6ᵉarrondissement 7ᵉarrondissement
+6ᵉarrondissement 14ᵉarrondissement
+6ᵉarrondissement 15ᵉarrondissement
+7ᵉarrondissement 8ᵉarrondissement
+7ᵉarrondissement 15ᵉarrondissement
+7ᵉarrondissement 16ᵉarrondissement
+8ᵉarrondissement 9ᵉarrondissement
+8ᵉarrondissement 16ᵉarrondissement
+8ᵉarrondissement 17ᵉarrondissement
+9ᵉarrondissement 10ᵉarrondissement
+9ᵉarrondissement 17ᵉarrondissement
+9ᵉarrondissement 18ᵉarrondissement
+10ᵉarrondissement 11ᵉarrondissement
+10ᵉarrondissement 18ᵉarrondissement
+10ᵉarrondissement 19ᵉarrondissement
+11ᵉarrondissement 12ᵉarrondissement
+11ᵉarrondissement 19ᵉarrondissement
+11ᵉarrondissement 20ᵉarrondissement
+12ᵉarrondissement 13ᵉarrondissement
+12ᵉarrondissement 20ᵉarrondissement
+13ᵉarrondissement 14ᵉarrondissement
+14ᵉarrondissement 15ᵉarrondissement
+15ᵉarrondissement 16ᵉarrondissement
+16ᵉarrondissement 17ᵉarrondissement
+17ᵉarrondissement 18ᵉarrondissement
+18ᵉarrondissement 19ᵉarrondissement
+19ᵉarrondissement 20ᵉarrondissement

@@ -1,6 +1,8 @@
 package ramassagePointDeCollecte;
 
 import Commun.Itineraire;
+import ramassagePointDeCollecte.Graphe.PointDeCollecte;
+
 import java.util.LinkedList;
 
 public class ItinerairePointDeCollecte extends Itineraire {

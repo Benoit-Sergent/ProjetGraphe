@@ -27,9 +27,9 @@ public class Commune extends Utilisateur {
         String choix;
         while(true){
             System.out.println("\n=== Selectionnez le type de graphe souhaite ===");
-            System.out.println("1. Graphe routier (ramassage habitations)");
-            System.out.println("2. Graphe points de collecte");
-            System.out.println("3. Graphe secteurs");
+            System.out.println("1. ramassagePointDeCollecte.Graphe routier (ramassage habitations)");
+            System.out.println("2. ramassagePointDeCollecte.Graphe points de collecte");
+            System.out.println("3. ramassagePointDeCollecte.Graphe secteurs");
             System.out.println("0. Retour");
             System.out.print("Votre choix : ");
             choix = scanner.nextLine();
@@ -63,7 +63,7 @@ public class Commune extends Utilisateur {
                     break;
             }
 
-            System.out.println("Graphe chargé avec succès.");
+            System.out.println("ramassagePointDeCollecte.Graphe chargé avec succès.");
         } catch (IOException e) {
             System.out.println("Erreur de lecture dans le fichier.");
         } catch (Exception e) {
@@ -79,9 +79,6 @@ public class Commune extends Utilisateur {
             System.out.println("==============================================");
             System.out.println("1. Soumettre plan du territoire a couvrir");
             System.out.println("2. Regrouper demandes de collecte d'encombrant");
-            //Afficher les sommets
-            System.out.println("3. Afficher les secteurs");
-            System.out.println("3. Afficher couleurs des secteurs");
             System.out.println("0. Retour");
             System.out.print("Votre choix : ");
             String choix = scanner.nextLine();
@@ -105,12 +102,6 @@ public class Commune extends Utilisateur {
                         sc.close();
                     }catch (FileNotFoundException e){
                         System.out.println("Erreur de lecture dans le fichier.");
-                    }
-                    break;
-                case "3":
-                    if(entreprise.getGrapheSecteurs() != null){
-                        for (Secteur s : entreprise.getGrapheSecteurs().getSecteurs())
-                            System.out.println(s.getNom() + " → Jour " + s.getJour());
                     }
                     break;
                 case "0": return;
@@ -162,6 +153,4 @@ public class Commune extends Utilisateur {
             return demandeEncombrants;
         }
     }
-    //Getters
-    public LinkedList<DemandeEncombrant> getListeDemandeEncombrant() { return listeDemandeEncombrant; }
 }

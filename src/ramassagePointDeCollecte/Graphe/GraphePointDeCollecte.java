@@ -1,4 +1,4 @@
-package ramassagePointDeCollecte;
+package ramassagePointDeCollecte.Graphe;
 
 import Commun.Graphe;
 

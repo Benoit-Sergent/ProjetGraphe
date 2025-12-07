@@ -29,7 +29,7 @@ public abstract class Tournee {
 
     @Override
     public String toString() {
-        return "Tournee - Date: " + Date + " Horaire: " + Horaire + " Algorithme utilisé: " + AlgorithmeUtilise;
+        return "Tournee - Date: " + Date + " Horaire: " + Horaire + "  Algorithme utilisé: " + AlgorithmeUtilise;
     }
 }
 

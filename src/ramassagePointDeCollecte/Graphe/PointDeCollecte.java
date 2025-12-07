@@ -1,4 +1,4 @@
-package ramassagePointDeCollecte;
+package ramassagePointDeCollecte.Graphe;
 
 public class PointDeCollecte {
     private int quantiteDechets;

@@ -30,11 +30,11 @@ public class Secteur {
     public List<Secteur> getSecteursVoisins() { return secteursVoisins; }
 
     //Setters
+    public void setTournee(Tournee tournee) { this.tournee = tournee; }
     public void setJour(String Jour) { this.jour = Jour;}
 
-    public void ajouterVoisin(Secteur secteur) {
-        if (!secteursVoisins.contains(secteur)) {
-            secteursVoisins.add(secteur);
-        }
+    @Override
+    public String toString() {
+        return "Nom : " + nom;
     }
 }

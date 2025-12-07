@@ -1,12 +1,15 @@
 package ramassagePointDeCollecte;
 
+import ramassagePointDeCollecte.Graphe.GraphePointDeCollecte;
+import ramassagePointDeCollecte.Graphe.PointDeCollecte;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class RechercheItinerairePointDeCollecte {
 
-    // Algorithme TSP
+    // ramassagePointDeCollecte.Algorithme TSP
     // Méthode qui retourne TourneePointDeCollecte
     public static TourneePointDeCollecte PlusProcheVoisinTSP(GraphePointDeCollecte graphe) {
         if (graphe == null
@@ -14,7 +17,7 @@ public class RechercheItinerairePointDeCollecte {
                 || graphe.getPointDeCollecte() == null
                 || graphe.getMatriceDistances() == null) {
 
-            System.out.println("Erreur : Graphe PDC incomplet.");
+            System.out.println("Erreur : ramassagePointDeCollecte.Graphe PDC incomplet.");
             return new TourneePointDeCollecte("TSP", null);
         }
 

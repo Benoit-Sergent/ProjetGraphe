@@ -49,7 +49,7 @@ public class AlgoCouplage {
     }
 
     /**
-     * Algorithme récursif pour tester les combinaisons de paires.
+     * ramassagePointDeCollecte.Algorithme récursif pour tester les combinaisons de paires.
      */
     private static List<Paire> resoudreRecursif(List<Intersection> sommets, Map<String, Integer> distances) {
         // Cas de base : plus de sommets à apparier

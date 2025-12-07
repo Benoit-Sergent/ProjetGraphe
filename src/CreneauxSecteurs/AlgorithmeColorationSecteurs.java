@@ -7,7 +7,7 @@ public class AlgorithmeColorationSecteurs {
 
     public static void Colorisation(GrapheSecteurs graphe) throws NullPointerException {
         //Si le graphe n'est pas chargé, on renvoie une exception
-        if (graphe == null) { throw new NullPointerException("Graphe non chargé");}
+        if (graphe == null) { throw new NullPointerException("ramassagePointDeCollecte.Graphe non chargé");}
 
         // Création d'un tableau pour afficher les couleurs : dans ce cas les jours de la semaine
         String[] Jours = {"Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"};

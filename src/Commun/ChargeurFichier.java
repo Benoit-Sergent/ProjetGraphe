@@ -5,8 +5,8 @@ import CreneauxSecteurs.Secteur;
 import ramassageHabitations.Graphe.GrapheRoutier;
 import ramassageHabitations.Graphe.Intersection;
 import ramassageHabitations.Graphe.Route;
-import ramassagePointDeCollecte.GraphePointDeCollecte;
-import ramassagePointDeCollecte.PointDeCollecte;
+import ramassagePointDeCollecte.Graphe.GraphePointDeCollecte;
+import ramassagePointDeCollecte.Graphe.PointDeCollecte;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;

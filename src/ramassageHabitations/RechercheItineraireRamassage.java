@@ -149,9 +149,9 @@ public class RechercheItineraireRamassage {
 
         // 1. Vérification si le graphe est Eulérien
         if (graphe.estEulerien()) {
-            System.out.println("   Graphe Eulérien détecté (Cas Idéal).");
+            System.out.println("   ramassagePointDeCollecte.Graphe Eulérien détecté (Cas Idéal).");
         } else {
-            System.out.println("   Graphe non Eulérien (Cas Réel). Application du correctif...");
+            System.out.println("   ramassagePointDeCollecte.Graphe non Eulérien (Cas Réel). Application du correctif...");
             if(!graphe.devenirEulerien(tr)){
                return null;
             };
@@ -180,7 +180,7 @@ public class RechercheItineraireRamassage {
             if (tr.getCoutTotal() > 0) {
                 System.out.println("Surcoût dû aux retours (arêtes dupliquées) : " + tr.getCoutTotal() + " m");
             } else {
-                System.out.println("Trajet optimal sans répétition (Graphe Eulérien parfait).");
+                System.out.println("Trajet optimal sans répétition (ramassagePointDeCollecte.Graphe Eulérien parfait).");
             }
         }
         return tr;

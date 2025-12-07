@@ -2,20 +2,19 @@ package Commun;
 
 import CreneauxSecteurs.AlgorithmeColorationSecteurs;
 import CreneauxSecteurs.GrapheSecteurs;
+import CreneauxSecteurs.Secteur;
 import ramassageHabitations.DemandeEncombrant;
 import ramassageHabitations.Graphe.GrapheRoutier;
-import ramassageHabitations.Graphe.Intersection;
 import ramassageHabitations.Graphe.Route;
 import ramassageHabitations.ItineraireRamassage;
 import ramassageHabitations.TourneeRamassage;
-import ramassagePointDeCollecte.GraphePointDeCollecte;
+import ramassagePointDeCollecte.Graphe.GraphePointDeCollecte;
 import ramassageHabitations.RechercheItineraireRamassage;
 import ramassagePointDeCollecte.RechercheItinerairePointDeCollecte;
 import ramassagePointDeCollecte.TourneePointDeCollecte;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -57,6 +56,7 @@ public class Entreprise extends Utilisateur {
             System.out.println("1. Calculer un itineraire de ramassage");
             System.out.println("2. Planifier jours collectes");
             System.out.println("3. Programmer camions");
+            System.out.println("4. Attribuer tournées à secteur");
             System.out.println("0. Retour");
             System.out.print("Votre choix : ");
             String choix = scanner.nextLine();
@@ -68,7 +68,13 @@ public class Entreprise extends Utilisateur {
                     }catch(NullPointerException e) {
                         e.getMessage();
                     }break;
-                case "3": programmer_camions(scanner); break;
+                case "3":
+                    if(camion_simultane == camions.size()){
+                        System.out.println("Impossible de programmer un camion, nombre max simultané atteint");
+                        break;
+                    }
+                    programmer_camions(scanner); break;
+                case "4": programmer_secteur(scanner); break;
                 case "0": return;
                 default: System.out.println("Choix invalide");
             }
@@ -210,6 +216,7 @@ public class Entreprise extends Utilisateur {
                 if (c != null) {
                     t.setCamion(c);
                     System.out.println("Camion attribué à la tournée");
+                    camion_simultane++;
                 }
                 return;
             } else {
@@ -238,6 +245,59 @@ public class Entreprise extends Utilisateur {
         }
     }
 
+    //Menu programation Secteur
+    private void programmer_secteur(Scanner scanner){
+        while (true) {
+            System.out.println("\n=== Choisissez Secteur ===");
+            LinkedList<Secteur> liste = new LinkedList<>(grapheSecteurs.getSecteurs());
+            //Affichage camions
+            for (int i = 0; i < liste.size(); i++) {
+                System.out.println((i + 1) + ". " + liste.get(i));
+            }
+            System.out.println("0. Retour");
+            System.out.print("Votre choix : ");
+            int choix = Integer.parseInt(scanner.nextLine());
+
+            //Actions
+            if (choix == 0) return;
+            if (choix >= 1 && choix <= liste.size()) {
+                Secteur s = liste.get(choix - 1);
+                s.setTournee(renvoyer_Tournee(scanner, s));
+            }
+            System.out.println("Choix invalide");
+        }
+    }
+    private Tournee renvoyer_Tournee(Scanner scanner, Secteur secteur) {
+        while (true) {
+            System.out.println("\n=== Choisissez Tournée ===");
+            LinkedList<Tournee> liste = new LinkedList<>(tourneesRamassages);
+            liste.addAll(tourneesRamassages);
+
+            //Affichage Tournee
+            for (int i = 0; i < liste.size(); i++) {
+                System.out.println((i + 1) + ". " + liste.get(i));
+            }
+            System.out.println("0. Retour");
+            System.out.print("Votre choix : ");
+            int choix = Integer.parseInt(scanner.nextLine());
+
+            //Actions
+            if (choix == 0) return null;
+            if (choix >= 1 && choix <= liste.size()) {
+                Tournee t = liste.get(choix - 1);
+                if(t.getCamion() == null){
+                    System.out.println("Erreur, camion non initialisé");
+                    return null;
+                }
+                if(secteur.getQuantiteEstimee() > t.getCamion().getCapaciteMax()) {
+                    System.out.println("Erreur, taille du camion trop faible");
+                    return null;
+                }
+                return t;
+            }
+            System.out.println("Choix invalide");
+        }
+    }
     //Getters
     public GrapheRoutier getGrapheRoutier() { return grapheRoutier ;}
     public GraphePointDeCollecte getGraphePointDeCollecte() { return graphePDC ;}

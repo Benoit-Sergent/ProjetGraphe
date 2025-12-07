@@ -88,8 +88,8 @@ public class Entreprise extends Utilisateur {
 
             switch (choix) {
                 case "1": menuCalculerEncombrants(scanner, commune);break;
-                case "2": menuCalculerPoubelle(scanner); break;
-                case "3": tourneesRamassages.add(gererCollectePoubelles(grapheRoutier)); break;
+                case "2": tourneesRamassages.add(gererCollectePoubelles(grapheRoutier)); break;
+                case "3": menuCalculerPointDeCollecte(scanner);break;
                 case "0": return;
                 default: System.out.println("Choix inv.");
             }
@@ -129,15 +129,6 @@ public class Entreprise extends Utilisateur {
                 case "0": return;
                 default: System.out.println("Choix inv.");
             }
-        }
-    }
-
-    private void menuCalculerPoubelle(Scanner scanner) {
-        while (true) {
-            System.out.println("=== Choisir le calcul d'itineraire voulu ===");
-            System.out.println("0. Retour");
-            System.out.print("Votre choix : ");
-            String choix = scanner.nextLine();
         }
     }
     private void menuCalculerPointDeCollecte(Scanner scanner) {

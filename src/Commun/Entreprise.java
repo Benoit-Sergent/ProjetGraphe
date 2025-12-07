@@ -20,7 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
-import static Commun.ChargeurFichier.chargerFichier;
+import static ramassageHabitations.RechercheItineraireRamassage.gererCollectePoubelles;
 
 public class Entreprise extends Utilisateur {
     //Graphes
@@ -80,7 +80,7 @@ public class Entreprise extends Utilisateur {
         while (true) {
             System.out.println("\n=== Choisir le type d'itineraire de ramassage ===");
             System.out.println("1. Ramassage encombrants");
-            System.out.println("2. Ramassage poubelles");
+            System.out.println("2. Ramassage poubelles (Postier Chinois)");
             System.out.println("3. Ramassage point de collecte");
             System.out.println("0. Retour");
             System.out.print("Votre choix : ");
@@ -89,7 +89,7 @@ public class Entreprise extends Utilisateur {
             switch (choix) {
                 case "1": menuCalculerEncombrants(scanner, commune);break;
                 case "2": menuCalculerPoubelle(scanner); break;
-                case "3": menuCalculerPointDeCollecte(scanner); break;
+                case "3": tourneesRamassages.add(gererCollectePoubelles(grapheRoutier)); break;
                 case "0": return;
                 default: System.out.println("Choix inv.");
             }

@@ -1,7 +1,5 @@
 package ramassageHabitations;
 
-import Commun.Graphe;
-import Commun.Itineraire;
 import ramassageHabitations.Algorithmes.Dijkstra;
 import ramassageHabitations.Graphe.GrapheRoutier;
 import ramassageHabitations.Algorithmes.*;
@@ -18,12 +16,12 @@ public class RechercheItineraireRamassage {
 
         //Itineraire du point de collecte -> debut de l'intersection de la rue
         intersection.add(adresse.getDepart()); //On ajoute la station de départ à la liste
-        ItineraireRamassage toDebut = Dijkstra.Dijkstra(g, g.getCentreDeTraitement(), intersection);
+        ItineraireRamassage toDebut = Dijkstra.calculItineraireRamassageDijkstra(g, g.getCentreDeTraitement(), intersection);
 
         //Itineraire de fin de la rue -> point de collecte
         intersection.clear(); //On vide la liste
         intersection.add(g.getCentreDeTraitement()); //On ajoute le centre de traitement à la liste
-        ItineraireRamassage toEnd = Dijkstra.Dijkstra(g, adresse.getArrivee(), intersection);
+        ItineraireRamassage toEnd = Dijkstra.calculItineraireRamassageDijkstra(g, adresse.getArrivee(), intersection);
 
         //Si on obtient pas de chemin, on retourne null
         if(toDebut == null || toEnd == null){
@@ -79,7 +77,7 @@ public class RechercheItineraireRamassage {
         //Exploration TSP
         while (!intersection_adresses.isEmpty()) { //Tant que la file n'est pas vide
             // On trouve dijkstra
-            ItineraireRamassage ir = Dijkstra.Dijkstra(g, debut, intersection_adresses);
+            ItineraireRamassage ir = Dijkstra.calculItineraireRamassageDijkstra(g, debut, intersection_adresses);
             if (ir == null) { //Si le chemin est null
                 System.err.println("Erreur: Impossible de trouver un chemin vers les points restants.");
                 return null;
@@ -104,7 +102,7 @@ public class RechercheItineraireRamassage {
         //On recherche maintenant le chemin retour
         LinkedList<Intersection> CentreDeTraitement = new LinkedList<>(); //Liste temporaire où on rajoute centre de traitement
         CentreDeTraitement.add(g.getCentreDeTraitement());                //Nécessaire au fonctionnement de Dijkstra
-        ItineraireRamassage ir = Dijkstra.Dijkstra(g, debut, CentreDeTraitement);
+        ItineraireRamassage ir = Dijkstra.calculItineraireRamassageDijkstra(g, debut, CentreDeTraitement);
         if (ir != null) { //Si le chemin n'est pas null
             LinkedList<Intersection> chemin = ir.getItineraire(); //On obtient le chemin
             tournee.addAll(chemin); //On rajoute tout le chemin dans la tournee
@@ -136,5 +134,55 @@ public class RechercheItineraireRamassage {
         }
 
         return total;
+    }
+
+    //ALGORITHMES : Postier Chinois (via AlgoCouplage et AlgoHierholzer).
+    // 1. On identifie les sommets de degré impair.
+    // 2. On utilise AlgoCouplage pour trouver les chemins à dupliquer afin de rendre le graphe eulérien.
+    // 3. On utilise AlgoHierholzer pour trouver le circuit eulérien final sur le graphe modifié.
+
+    public static TourneeRamassage gererCollectePoubelles(GrapheRoutier graphe) {
+        //On Vérifie que le graphe soit Eulérien
+        //Message d'accueil qui vérife
+        TourneeRamassage tr = new TourneeRamassage("AlgoHierholzer");
+        System.out.println(">> Calcul de la tournée en cours...");
+
+        // 1. Vérification si le graphe est Eulérien
+        if (graphe.estEulerien()) {
+            System.out.println("   Graphe Eulérien détecté (Cas Idéal).");
+        } else {
+            System.out.println("   Graphe non Eulérien (Cas Réel). Application du correctif...");
+            if(!graphe.devenirEulerien(tr)){
+               return null;
+            };
+        }
+
+        // 2. Calcul du circuit final (Hierholzer)
+        ItineraireRamassage ir = new ItineraireRamassage(AlgoHierholzer.trouverCircuit(graphe, graphe.getCentreDeTraitement()));
+        tr.setItineraire(ir);
+        System.out.println(">> Tournée calculée avec succès !");
+
+        List<Intersection> chemin = tr.getItineraireRamassage().getItineraire();
+
+        if (chemin == null || chemin.isEmpty()) {
+            System.out.println("Erreur : Impossible de calculer l'itinéraire.");
+        } else {
+            //Affichage des résultats
+            System.out.println("\n~~~~~ RESULTAT (Postier Chinois) : ~~~~~");
+            System.out.println("1. Itineraire centre de traitement -> intersection de fin : ");
+            System.out.println(ir);
+            System.out.println("------------------------------------------------");
+            for(int i = 0; i < ir.getItineraire().size()-1; i++){
+                Intersection debut = ir.getItineraire().get(i);
+                Intersection fin = ir.getItineraire().get(i+1);
+                System.out.println(debut + " -> " + fin);
+            }
+            if (tr.getCoutTotal() > 0) {
+                System.out.println("Surcoût dû aux retours (arêtes dupliquées) : " + tr.getCoutTotal() + " m");
+            } else {
+                System.out.println("Trajet optimal sans répétition (Graphe Eulérien parfait).");
+            }
+        }
+        return tr;
     }
 }

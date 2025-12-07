@@ -2,13 +2,28 @@ package ramassageHabitations.Algorithmes;
 
 import ramassageHabitations.Graphe.*;
 import ramassageHabitations.ItineraireRamassage;
-import ramassageHabitations.TourneeRamassage;
 
 import java.util.*;
 
 public class Dijkstra {
 
-    public static ItineraireRamassage Dijkstra(GrapheRoutier graphe, Intersection debut, LinkedList<Intersection> fin) {
+    //Resultat Dijkstra
+    public static class DijkstraResultat {
+        final Map<Intersection,Integer> distances;
+        final Map<Intersection,Intersection> predecesseurs;
+        DijkstraResultat(Map<Intersection,Integer> d, Map<Intersection,Intersection> p) {
+            this.distances = d;
+            this.predecesseurs = p;
+        }
+
+        // Récupère la distance minimale vers une destination
+        public int getDistance(Intersection arrivee) {
+            return distances.getOrDefault(arrivee, Integer.MAX_VALUE);
+        }
+    }
+
+    //Renvoie le résultat de Dijkstra
+    public static DijkstraResultat Dijkstra(GrapheRoutier graphe, Intersection debut) {
         Map<Intersection, Integer> distances = new HashMap<>();
         Map<Intersection, Intersection> predecesseurs = new HashMap<>();
 
@@ -52,6 +67,14 @@ public class Dijkstra {
                 }
             }
         }
+        return new DijkstraResultat(distances, predecesseurs);
+    }
+
+    //Fonction qui calcul à l'aide de Dijkstra l'itineraire le plus court vers 1 ou plusieurs points
+    public static ItineraireRamassage calculItineraireRamassageDijkstra(GrapheRoutier graphe, Intersection debut, LinkedList<Intersection> fin) {
+        DijkstraResultat res = Dijkstra(graphe, debut);
+        Map<Intersection,Integer> distances = res.distances;
+        Map<Intersection,Intersection> predecesseurs = res.predecesseurs;
 
         //On compare les distances pour voir quel fin est plus proche du point de debut
         Intersection plusProche = null;
@@ -65,7 +88,6 @@ public class Dijkstra {
                 plusProche = i;
             }
         }
-
         //Si le chemin n'est pas trouvée
         if(plusProche == null){
             return  null;

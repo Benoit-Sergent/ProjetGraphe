@@ -14,6 +14,10 @@ public class ItineraireRamassage extends Itineraire {
         super(distance, quantite_dechet);
         this.itineraire = itineraire;
     }
+    public ItineraireRamassage(LinkedList<Intersection> itineraire) {
+        super(0, 0);
+        this.itineraire = itineraire;
+    }
 
     //Getters
     public LinkedList<Intersection> getItineraire() { return itineraire; }

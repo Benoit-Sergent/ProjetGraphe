@@ -11,11 +11,15 @@ public class Intersection {
         this.nom = nom;
     }
 
+
     //Getters
     public String getNom() {
         return nom;
     }
     public LinkedList<Route> getRoutesSortantes() { return routes_sortantes; }
+    public int getDegre() {
+        return routes_sortantes.size();
+    }
 
     @Override
     public String toString() {

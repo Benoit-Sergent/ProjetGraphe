@@ -6,15 +6,15 @@ import java.util.List;
 
 public class RechercheItinerairePointDeCollecte {
 
+    // Algorithme TSP
+    // Méthode qui retourne TourneePointDeCollecte
     public static TourneePointDeCollecte PlusProcheVoisinTSP(GraphePointDeCollecte graphe) {
-
-        // Blindage
         if (graphe == null
                 || graphe.getCentreDeTraitement() == null
                 || graphe.getPointDeCollecte() == null
                 || graphe.getMatriceDistances() == null) {
 
-            System.out.println("Erreur : graphe PDC incomplet");
+            System.out.println("Erreur : Graphe PDC incomplet.");
             return new TourneePointDeCollecte("TSP", null);
         }
 
@@ -79,3 +79,4 @@ public class RechercheItinerairePointDeCollecte {
         return new TourneePointDeCollecte(null, null);
     }
 }
+

@@ -38,11 +38,15 @@ public class GraphePointDeCollecte extends Graphe {
      *   0 -> dépôt
      *   1..n -> PDC dans l’ordre de la liste PDC.
      */
+    // Renvoie un double (la distance)
+    // Distance entre deux objets a et b
     public double getDistance(PointDeCollecte a, PointDeCollecte b) {
+        // Blindage : matrice existante, dépôt initialisé
         if (matriceDistances == null || CentreDeTraitement == null) {
             return Double.POSITIVE_INFINITY;
         }
 
+        // On cherche à savoir quel numéro correspond à quel sommet
         int i = indexOf(a);
         int j = indexOf(b);
         if (i < 0 || j < 0) {
@@ -51,14 +55,15 @@ public class GraphePointDeCollecte extends Graphe {
         return matriceDistances[i][j];
     }
 
+    // Méthode qui donne l'indice exact à utiliser dans la matrice de distances
     private int indexOf(PointDeCollecte p) {
         if (p == null) return -1;
-        if (p == CentreDeTraitement) return 0;
+        if (p == CentreDeTraitement) return 0; // le dépôt est le premier sommet dans la matrice
         if (PDC == null) return -1;
 
-        int idx = PDC.indexOf(p); // même instance => OK
+        int idx = PDC.indexOf(p); // Dans la liste des PDC : 0 = C1, 1 = C2, 2 = C3, etc
         if (idx < 0) return -1;
-        return idx + 1; // car 0 = dépôt
+        return idx + 1; // On renvoie idx+1 car les PDC dans la matrice commencent à partir de la colonne 1 (dépôt = 0)
     }
 }
 
